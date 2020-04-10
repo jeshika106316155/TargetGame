@@ -89,6 +89,5 @@ function init() {
             container.angle += k;
             txt.text = container.angle;
         });
-
     }
 }
