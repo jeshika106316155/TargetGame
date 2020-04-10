@@ -1,0 +1,34 @@
+.base-layout {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  min-width: 300px;
+  transform: translate(-100%, 0);
+  transition-timing-function: linear;
+  background-color: #f5d6d6;
+
+  &.open {
+    transform: translate(0, 0);
+  }
+}
+.base-layout-container {
+  header {
+    z-index: 1;
+  }
+
+  body {
+    z-index: 1;
+  }
+
+  footer {
+    z-index: 1;
+  }
+}

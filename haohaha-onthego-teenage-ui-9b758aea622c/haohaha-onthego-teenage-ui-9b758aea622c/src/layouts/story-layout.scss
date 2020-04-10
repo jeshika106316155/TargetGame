@@ -1,0 +1,37 @@
+.story-layout {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.story-layout-bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: #000000;
+}
+.story-layout-container {
+  max-width: 414px;
+  max-height: 736px;
+  background-color: #ffffff;
+
+  header {
+    z-index: 1;
+  }
+
+  body {
+    z-index: 0;
+  }
+
+  footer {
+    z-index: 1;
+  }
+}
