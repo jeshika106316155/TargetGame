@@ -130,9 +130,8 @@ function onbuttonout() {
         this.texture = textureque;
     }
 }
-
-function onbuttonquestiondown() {
-    //console.log(bt);
+function a()
+{
     let buttonok;
 
     var h1 = app.view.height / 3;
@@ -167,9 +166,16 @@ function onbuttonquestiondown() {
     buttons.addChild(buttonEndTurn);
     buttons.addChild(text);
     buttons.addChild(buttonok);
+    
+    app.stage.addChild(buttons);
+}
+ function onbuttonquestiondown() {
+    //console.log(bt);
+   a();
+}
+function onremovebuttonfema() {
     app.stage.removeChild(buttonfemale);
     app.stage.removeChild(buttonmale);
-    app.stage.addChild(buttons);
 }
 function onbuttonokdown() {
     app.stage.removeChild(buttons);
