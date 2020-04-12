@@ -1,5 +1,26 @@
-import { Slide, Size } from './pregameStructs.js';
-export var SLIDE = [{
+//import { Slide, Size } from './pregameStructs.js';
+var slideid = [{
+    id: "texturefe",
+    bg: '/images/Female2.png'
+}, {
+    id: "texturefe2",
+    bg: '/images/Female1.png'
+}, {
+    id: "texturema",
+    bg: '/images/Male1.png.png'
+}, {
+    id: "texturema2",
+    bg: '/images/Male.png'
+}, {
+    id: "textureque",
+    bg: '/images/question.png'
+}, {
+    id: "textureque2",
+    bg: '/images/question2.png'
+},
+
+]
+var SLIDE = [{
     id: 'bg',
     anchor: 0,
     bg: '/images/bg1.jpg',
@@ -15,11 +36,11 @@ export var SLIDE = [{
     },
     size: {
         width: {
-            name: "app.view.height",
+            name: "app.view.width",
             value: 1,
         },
         height: {
-            name: "app.view.width",
+            name: "app.view.height",
             value: 1,
         }
     }
@@ -29,145 +50,95 @@ export var SLIDE = [{
     bg: '/images/textup.png',
     shap: {
         x: {
-            name: "0",
-            value: 150,
+            name: "app.view.width",
+            value: 2,
         },
         y: {
-            name: "0",
-            value: 400,
+            name: "app.view.height",
+            value: 4,
         },
     },
     size: {
         width: {
+            name: "0",
+            value: 400,
+        },
+        height: {
+            name: "0",
+            value: 150,
+        }
+    }
+}, {
+    id: '',
+    anchor: 0.5,
+    bg: '',
+    shap: {
+        x: {
+            name: "app.view.width",
+            value: 2,
+        },
+        y: {
+            name: "app.view.height",
+            value: 2,
+        },
+    },
+    size: {
+        width: {
+            name: "0",
+            value: 150,
+        },
+        height: {
+            name: "0",
+            value: 150,
+        }
+    }
+}, {
+    id: 'texturema',
+    anchor: 0.5,
+    bg: '/images/Male1.png',
+    shap: {
+        x: {
+            name: "app.view.width",
+            value: 2,
+        },
+        y: {
+            name: "app.view.height",
+            value: 4 / 3,
+        },
+    },
+    size: {
+        width: {
+            name: "0",
+            value: 150,
+        },
+        height: {
+            name: "0",
+            value: 150,
+        }
+    }
+}, {
+    id: 'textureque',
+    anchor: 1,
+    bg: '/images/question.png',
+    shap: {
+        x: {
+            name: "app.view.width",
+            value: 1,
+        },
+        y: {
             name: "app.view.height",
             value: 1,
         },
+    },
+    size: {
+        width: {
+            name: "0",
+            value: 80,
+        },
         height: {
-            name: "app.view.width",
-            value: 1,
+            name: "0",
+            value: 80,
         }
     }
-
 }
-
 ]
-
-export const SLIDE: Slide[] = [{
-    id: 'pregame',
-    bg: '/game/1/pregame.png',
-    btn: [{
-        href: '1-1-1',
-    }]
-}, {
-    id: '1-1-1',
-    bg: '/game/1/1-1-1.png',
-    btn: [{
-        href: '1-1-2',
-        shap: {
-            x: 129,
-            y: 157,
-            w: 164,
-            h: 164,
-        },
-    }, {
-        href: '1-1-3',
-        shap: {
-            x: 133,
-            y: 398,
-            w: 164,
-            h: 164,
-        },
-    }],
-}, {
-    id: '1-1-2',
-    bg: '/game/1/1-1-2.png',
-    btn: [{
-        href: '1-2-1'
-    }],
-}, {
-    id: '1-1-3',
-    bg: '/game/1/1-1-3.png',
-    btn: [{
-        href: '1-1-1'
-    }],
-}, {
-    id: '1-2-1',
-    bg: '/game/1/1-2-1.png',
-    btn: [{
-        href: '1-2-2',
-        shap: {
-            x: 54,
-            y: 267,
-            w: 149,
-            h: 54,
-        },
-    }, {
-        href: '1-2-3',
-        shap: {
-            x: 54,
-            y: 447,
-            w: 149,
-            h: 54,
-        },
-    }],
-}, {
-    id: '1-2-2',
-    bg: '/game/1/1-2-2.png',
-    btn: [{
-        href: '1-3-1',
-    }],
-}, {
-    id: '1-2-3',
-    bg: '/game/1/1-2-3.png',
-    btn: [{
-        href: '1-2-1'
-    }],
-}, {
-    id: '1-3-1',
-    bg: '/game/1/1-3-1.png',
-    btn: [{
-        href: '1-3-2',
-        shap: {
-            x: 124,
-            y: 216,
-            w: 158,
-            h: 207
-        }
-    }],
-}, {
-    id: '1-3-2',
-    bg: '/game/1/1-3-2.png',
-    btn: [{
-        href: '1-3-3',
-        shap: {
-            x: 124,
-            y: 216,
-            w: 158,
-            h: 207
-        }
-    }],
-}, {
-    id: '1-3-3',
-    bg: '/game/1/1-3-3.png',
-    btn: [{
-        href: '1-3-4',
-        shap: {
-            x: 124,
-            y: 216,
-            w: 158,
-            h: 207
-        }
-    }],
-}, {
-    id: '1-3-4',
-    bg: '/game/1/1-3-4.png',
-    btn: [{
-        href: '1-4-1',
-        shap: {
-            x: 124,
-            y: 216,
-            w: 158,
-            h: 207
-        }
-    }],
-}];
