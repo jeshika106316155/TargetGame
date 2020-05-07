@@ -30,7 +30,7 @@ class preGameView {
         this.renderimage(this.image);
         this.image = this.setimage(SLIDE[1]);
         this.renderimage(this.image);
-        this.image = this.setslideid(SLIDE[2], slideid[0]);
+        this.image = this.setslideid(SLIDE[2], slideid[0][0]);
         this.image = this.setimage(SLIDE[2]);
         this.setbutton(this.image);
         this.renderimage(this.image);
@@ -117,10 +117,12 @@ function onbuttonover(bt) {
                 if (j == 0) {
                     pregameview.setslideid(SLIDE[i + 2], slideid[i][j + 1]);
                     image = pregameview.setimage(SLIDE[i + 2]);
+                    break;
                 }
                 else {
                     pregameview.setslideid(SLIDE[i + 2], slideid[i][j - 1]);
                     image = pregameview.setimage(SLIDE[i + 2]);
+                    break;
                 }
             }
         }

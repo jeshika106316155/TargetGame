@@ -1,23 +1,23 @@
 //import { Slide, Size } from './pregameStructs.js';
-var slideid = [{
+var slideid = [[{
     id: "texturefe",
     bg: '/images/Female2.png'
 }, {
     id: "texturefe2",
     bg: '/images/Female1.png'
-}, {
+}], [{
     id: "texturema",
     bg: '/images/Male1.png.png'
 }, {
     id: "texturema2",
     bg: '/images/Male.png'
-}, {
+}], [{
     id: "textureque",
     bg: '/images/question.png'
 }, {
     id: "textureque2",
     bg: '/images/question2.png'
-},
+}]
 
 ]
 var SLIDE = [{

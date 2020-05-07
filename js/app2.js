@@ -15,7 +15,7 @@ class CStar {
 
 class CScore {
     constructor(app, sw, sh) {
-        this.container= new PIXI.Container();
+        this.container = new PIXI.Container();
 
         this.scorebg = new PIXI.Graphics();
         this.scorebg.beginFill(0xFFFFFF);
@@ -41,7 +41,7 @@ class CScore {
         this.scoreline.beginFill(0xffc107);
         this.scoreline.lineStyle(2, 0xFFFF00);
         this.scoreline.drawRect(sw / 20 + 10, sh / 20 + 5, width, 20);
-        this.scoreline.zIndex=1;
+        this.scoreline.zIndex = 1;
     }
 }
 
@@ -60,10 +60,10 @@ class Board {
         this.board.lineStyle(2, color);
         this.board.drawCircle(sw / 2, sh * 1 / 4, diameter);
         this.board.interactive = true;
-        let txt = new PIXI.Text("", {fontFamily: 'Arial',fontSize: 24, fill: 0x000000, align: 'center' });
+        let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
         app.stage.addChild(txt);
         //this.board.click = this.hitBoard;
-        this.board.click = function(){
+        this.board.click = function () {
             let fullstar = new PIXI.Texture.from("images/star.png");
             let scrbx = scorebox;
             let width = scrbx.scoreline.width;
@@ -75,11 +75,11 @@ class Board {
                 }
                 scrbx.drawScoreline(sw, sh, width);
                 //scorebox.drawRect(sw/20+10,sh/20+5,width,20);
-                txt.text=scrbx.star1.s.x;
-                if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count==0) {
+                txt.text = scrbx.star1.s.x;
+                if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count == 0) {
                     scrbx.star1.s.texture = fullstar;
                     displayBox(app);
-                    Board.count++;                  
+                    Board.count++;
                 }
                 if (scrbx.scoreline.width >= scrbx.star2.s.x && Board.count == 1) {
                     scrbx.star2.s.texture = fullstar;
@@ -95,7 +95,7 @@ class Board {
         app.stage.addChild(this.board);
     }
     hitBoard(e, scorebox) {
-       
+
     }
 }
 
@@ -105,7 +105,7 @@ function init() {
     let yellow, pink, red, uterus;
     let scorebox;
     let semicircle, arrow, circle, backgroundimg;
-    window.onload = function() {
+    window.onload = function () {
         app = new PIXI.Application({
             width: 414,
             height: 736,
@@ -125,13 +125,13 @@ function init() {
 
         let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
         app.stage.addChild(txt);
-        txt = new PIXI.Text("RED=30", { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center'});
+        txt = new PIXI.Text("RED=30", { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 200;
         app.stage.addChild(txt);
-        txt = new PIXI.Text("PINK=20", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center'});
+        txt = new PIXI.Text("PINK=20", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 225;
         app.stage.addChild(txt);
-        txt = new PIXI.Text("YELLOW=10", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center'});
+        txt = new PIXI.Text("YELLOW=10", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 255;
         app.stage.addChild(txt);
 
@@ -181,10 +181,12 @@ function init() {
         container.addChild(arrow);
         container.angle = 0;
 
-        app.ticker.add(function(delta) {
+        var k = 1;
+        app.ticker.add(function (delta) {
             // rotate the container!
             // use delta to create frame-independent tranform
-            var k = 1;
+            var angle = container.angle;
+            if (container.angle < 0 || container.angle > 180) { k = -k; }
             container.angle += k;
             //txt.text = container.angle;
         });

@@ -47,6 +47,19 @@ function init() {
         textup.y = app.view.height / 4;
         app.stage.addChild(textup);
 
+        textup2 = new PIXI.Sprite.from("images/textup.png");
+        textup2.position = "absolute";
+        textup2.anchor.set(0.5);
+        textup2.height = 150;
+        textup2.width = 400;
+        textup2.x = 400;
+        textup2.y = 100;
+        textup2.speed = 10;
+        app.ticker.add(delta => gameLoop(delta));
+        app.ticker.add(delta => checkLoop(delta));
+        app.stage.addChild(textup2);
+
+
         buttonfemale = new PIXI.Sprite.from(texturefe);
         buttonfemale.buttonMode = true;
         buttonfemale.anchor.set(0.5);
@@ -130,8 +143,7 @@ function onbuttonout() {
         this.texture = textureque;
     }
 }
-function a()
-{
+function a() {
     let buttonok;
 
     var h1 = app.view.height / 3;
@@ -150,7 +162,7 @@ function a()
     buttonok.buttonMode = true;
     buttonok.on('pointerdown', onbuttonokdown);
 
-    var buttonEndTurn = new PIXI.Graphics();
+    var buttonEndTurn = new PIXI.Graphics(); s
     buttonEndTurn.beginFill(0xFF2342);
     buttonEndTurn.drawRect(w1, h1, w2, h1);
     buttonEndTurn.endFill();
@@ -166,12 +178,12 @@ function a()
     buttons.addChild(buttonEndTurn);
     buttons.addChild(text);
     buttons.addChild(buttonok);
-    
+
     app.stage.addChild(buttons);
 }
- function onbuttonquestiondown() {
+function onbuttonquestiondown() {
     //console.log(bt);
-   a();
+    a();
 }
 function onremovebuttonfema() {
     app.stage.removeChild(buttonfemale);
@@ -181,4 +193,17 @@ function onbuttonokdown() {
     app.stage.removeChild(buttons);
     app.stage.addChild(buttonfemale);
     app.stage.addChild(buttonmale);
+}
+function gameLoop(delta) {
+
+    //Move the cat 1 pixel 
+    textup2.x -= 1;
+    textup2.y += 1;
+}
+function checkLoop(delta) {
+
+    //Move the cat 1 pixel 
+    if (textup2.y == app.view.height / 2) {
+        app.ticker.stop();
+    }
 }
