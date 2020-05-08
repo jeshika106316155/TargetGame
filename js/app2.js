@@ -163,34 +163,101 @@ function init() {
         circle.beginFill(0xFF0000);
         circle.lineStyle(2, 0xFF0000);
         circle.drawCircle(sw / 2, sh * 13 / 16, 20);
+        //circle.on('pointerdown')
         app.stage.addChild(circle);
 
-        var container = new PIXI.Container();
-        app.stage.addChild(container);
+        var arrowContainer = new PIXI.Container();
+        app.stage.addChild(arrowContainer);
 
-        container.x = sw / 2;
-        container.y = sh * 13 / 16;
-        container.pivot.x = container.width / 2;
-        container.pivot.y = container.height / 2;
+        arrowContainer.x = sw / 2;
+        arrowContainer.y = sh * 13 / 16;
+        arrowContainer.pivot.x = arrowContainer.width / 2;
+        arrowContainer.pivot.y = arrowContainer.height / 2;
 
         var points = [new PIXI.Point(0, -15), new PIXI.Point(0, 15), new PIXI.Point(-150, 0)];
         arrow = new this.PIXI.Graphics();
         arrow.beginFill(0xFF0000);
         arrow.lineStyle(2, 0xFF0000);
         arrow.drawPolygon(new PIXI.Polygon(points));
-        container.addChild(arrow);
-        container.angle = 0;
+        arrowContainer.addChild(arrow);
+        arrowContainer.angle = 45;
+        arrowContainer.interactive=true;
 
         var k = 1;
-        app.ticker.add(function (delta) {
-            // rotate the container!
-            // use delta to create frame-independent tranform
-            var angle = container.angle;
-            if (container.angle < 0 || container.angle > 180) { k = -k; }
-            container.angle += k;
-            //txt.text = container.angle;
+        let rotateTicker = () => {
+            var angle = arrowContainer.angle;
+            if (arrowContainer.angle < 0 || arrowContainer.angle > 180) { k = -k; }
+            arrowContainer.angle += k;
+        }
+
+        var speed=5; //1-20
+        var flyTicker = () => {
+            arrowContainer.x= arrowContainer.x - Math.cos(arrowContainer.rotation)*speed;
+            arrowContainer.y = arrowContainer.y - Math.sin(arrowContainer.rotation)*speed;
+        }
+
+        app.ticker.add(rotateTicker);
+
+        var gaugeContainer = new PIXI.Container();
+        app.stage.addChild(gaugeContainer);
+
+        let txt1 = new PIXI.Text("SPEED=0", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
+        txt1.y = 400;
+        app.stage.addChild(txt1);
+
+        gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
+        gaugeBar.anchor.set(0.5);
+        gaugeBar.x = sw/2;
+        gaugeBar.y = sh*18 / 20;
+        gaugeBar.height = 30;
+        gaugeBar.width = 300;
+        gaugeContainer.addChild(gaugeBar);
+        
+        let holdCircle=false;
+        gaugeCircle = new PIXI.Sprite.from("images/circle.png");
+        gaugeCircle.anchor.set(0.5);
+        gaugeCircle.x = sw/2;
+        gaugeCircle.y = sh*18 / 20;
+        gaugeCircle.height = 30;
+        gaugeCircle.width = gaugeCircle.height;
+        gaugeContainer.addChild(gaugeCircle);
+        gaugeCircle.interactive=true;
+        gaugeCircle.on('pointerdown', function () {  holdCircle=true; rotateTicker.stop() }  );
+        gaugeCircle.on('pointermove', function(e) { 
+            if(holdCircle==true){
+                pos=e.data.global.x;
+                farleft=gaugeBar.x-gaugeBar.width/2 + gaugeCircle.width/2;
+                farright=gaugeBar.x+gaugeBar.width/2 - gaugeCircle.width/2;
+                diff=farright-farleft; //342-72 = 270
+                scale = diff/100; //2.7
+                if(pos < farleft){
+                    gaugeCircle.x= farleft;
+                }
+                else if(pos > farright){
+                    gaugeCircle.x=farright;
+                }
+                else {
+                    gaugeCircle.x=pos;
+                }
+                gaugeValue=parseInt((gaugeCircle.x-farleft)/scale);
+                speed=gaugeValue/5;
+                txt1.text="SPEED="+speed;
+            }
+        });
+        gaugeCircle.on('pointerup', function () { 
+            if(holdCircle==true){
+            holdCircle=false;
+            Arrowangle=arrowContainer.angle;
+            app.ticker.remove(rotateTicker);
+            app.ticker.add(flyTicker);
+            }
         });
     }
+}
+
+function stopArrow(rotateTicker)
+{
+    rotateTicker.stop();
 }
 
 function displayBox(app) {

@@ -1,3 +1,6 @@
+AKU HAPUS //# sourceMappingURL=pixi.min.js.map DARI [pixi.min.js]
+
+
 PUSH TO MASTER
 git push origin master //to push in master branch
 
