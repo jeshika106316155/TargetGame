@@ -47,51 +47,29 @@ class CScore {
 
 class Board {
     static count;
-    constructor(app, sw, sh, color, diameter, score, scorebox) {
+    constructor(app, sw, sh, color, radius, score, scorebox) {
         this.app = app;
         this.sw = sw;
         this.sh = sh;
         this.color = color;
-        this.diameter = diameter;
+        this.radius = radius;
         this.score = score;
         this.scorebox = scorebox;
         this.board = new PIXI.Graphics();
         this.board.beginFill(color);
-        this.board.lineStyle(2, color);
-        this.board.drawCircle(sw / 2, sh * 1 / 4, diameter);
+        //this.board.lineStyle(1, color);
+        this.board.drawCircle(sw / 2, sh * 1 / 4, radius);
         this.board.interactive = true;
-        let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-        app.stage.addChild(txt);
+
         //this.board.click = this.hitBoard;
         this.board.click = function () {
-            let fullstar = new PIXI.Texture.from("images/star.png");
-            let scrbx = scorebox;
-            let width = scrbx.scoreline.width;
-            if (width < sw * 7 / 8) {
-                scrbx.scoreline.clear();
-                width += score;
-                if (width > sw * 7 / 8) {
-                    width = sw * 7 / 8;
-                }
-                scrbx.drawScoreline(sw, sh, width);
-                //scorebox.drawRect(sw/20+10,sh/20+5,width,20);
-                txt.text = scrbx.star1.s.x;
-                if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count == 0) {
-                    scrbx.star1.s.texture = fullstar;
-                    displayBox(app);
-                    Board.count++;
-                }
-                if (scrbx.scoreline.width >= scrbx.star2.s.x && Board.count == 1) {
-                    scrbx.star2.s.texture = fullstar;
-                    displayBox(app);
-                    Board.count++;
-                }
-            } else if (Board.count == 2) {
-                scrbx.star3.s.texture = fullstar;
-                displayBox(app);
-                Board.count++;
-            }
+            //hitboard(scorebox, score, txt);
+            // var txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+            // app.stage.addChild(txt);
+            // txt.x = sw / 2;
+            // txt.y = sh / 4;
         };
+
         app.stage.addChild(this.board);
     }
     hitBoard(e, scorebox) {
@@ -141,6 +119,7 @@ function init() {
         pink = new Board(app, sw, sh, 0xFFC0CB, 80, 20, scorebox);
         red = new Board(app, sw, sh, 0xFF00000, 60, 30, scorebox);
 
+
         uterus = new PIXI.Sprite.from("images/uterus.png");
         uterus.anchor.set(0.5);
         uterus.x = sw / 2;
@@ -180,8 +159,8 @@ function init() {
         arrow.lineStyle(2, 0xFF0000);
         arrow.drawPolygon(new PIXI.Polygon(points));
         arrowContainer.addChild(arrow);
-        arrowContainer.angle = 45;
-        arrowContainer.interactive=true;
+        arrowContainer.angle = 80;
+        arrowContainer.interactive = true;
 
         var k = 1;
         let rotateTicker = () => {
@@ -190,13 +169,52 @@ function init() {
             arrowContainer.angle += k;
         }
 
-        var speed=5; //1-20
+        var speed = 5; //1-20
+        var counter = 0;
         var flyTicker = () => {
-            arrowContainer.x= arrowContainer.x - Math.cos(arrowContainer.rotation)*speed;
-            arrowContainer.y = arrowContainer.y - Math.sin(arrowContainer.rotation)*speed;
+            if (counter == 50) {
+                app.ticker.remove(flyTicker);
+                counter = 0;
+                var centerx = sw / 2, centery = (sh * 1 / 4) + 7;
+                var arrx = arrowContainer.x, arry = arrowContainer.y;
+
+                txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+                app.stage.addChild(txt);
+                var conheigh = arrowContainer.width;
+                txt.y = arrowContainer.y - 25;
+                txt.x = arrowContainer.x - 5;
+                for (var i = 0; i < arrowContainer.width; i++) {
+                    txt.x = txt.x - Math.cos(arrowContainer.rotation);
+                    txt.y = txt.y - Math.sin(arrowContainer.rotation);
+                }
+                var txtx = txt.x + 5, txty = txt.y + 25;
+                var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
+                //txt.y = arrowContainer.y - 15;//(arrowContainer.width - 15) *
+                //txt.x = arrowContainer.x - (Math.cos(arrowContainer.rotation));
+                txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
+                app.stage.addChild(txt);
+                if (r2 <= Math.pow(60, 2)) {
+                    hitboard(scorebox, 30, txt);
+                    txt1.text = "merah";
+                }
+                else if (r2 <= Math.pow(80, 2)) {
+                    hitboard(scorebox, 20, txt);
+                    txt1.text = "pink";//pink
+                }
+                else if (r2 <= Math.pow(100, 2)) {
+                    hitboard(scorebox, 10, txt);
+                    txt1.text = "kuning";//kuning
+                }
+            }
+
+            arrowContainer.x = arrowContainer.x - Math.cos(arrowContainer.rotation) * speed;
+            arrowContainer.y = arrowContainer.y - Math.sin(arrowContainer.rotation) * speed;
+            counter++;
+
+
         }
 
-        app.ticker.add(rotateTicker);
+        //app.ticker.add(rotateTicker);
 
         var gaugeContainer = new PIXI.Container();
         app.stage.addChild(gaugeContainer);
@@ -207,56 +225,92 @@ function init() {
 
         gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
         gaugeBar.anchor.set(0.5);
-        gaugeBar.x = sw/2;
-        gaugeBar.y = sh*18 / 20;
+        gaugeBar.x = sw / 2;
+        gaugeBar.y = sh * 18 / 20;
         gaugeBar.height = 30;
         gaugeBar.width = 300;
         gaugeContainer.addChild(gaugeBar);
-        
-        let holdCircle=false;
+
+        let holdCircle = false;
         gaugeCircle = new PIXI.Sprite.from("images/circle.png");
         gaugeCircle.anchor.set(0.5);
-        gaugeCircle.x = sw/2;
-        gaugeCircle.y = sh*18 / 20;
+        gaugeCircle.x = sw / 2;
+        gaugeCircle.y = sh * 18 / 20;
         gaugeCircle.height = 30;
         gaugeCircle.width = gaugeCircle.height;
         gaugeContainer.addChild(gaugeCircle);
-        gaugeCircle.interactive=true;
-        gaugeCircle.on('pointerdown', function () {  holdCircle=true; rotateTicker.stop() }  );
-        gaugeCircle.on('pointermove', function(e) { 
-            if(holdCircle==true){
-                pos=e.data.global.x;
-                farleft=gaugeBar.x-gaugeBar.width/2 + gaugeCircle.width/2;
-                farright=gaugeBar.x+gaugeBar.width/2 - gaugeCircle.width/2;
-                diff=farright-farleft; //342-72 = 270
-                scale = diff/100; //2.7
-                if(pos < farleft){
-                    gaugeCircle.x= farleft;
+        gaugeCircle.interactive = true;
+        gaugeCircle.on('pointerdown', function () { holdCircle = true; app.ticker.remove(rotateTicker); });
+        gaugeCircle.on('pointermove', function (e) {
+            if (holdCircle == true) {
+                pos = e.data.global.x;
+                posy = e.data.global.y;
+                farleft = gaugeBar.x - gaugeBar.width / 2 + gaugeCircle.width / 2;
+                farright = gaugeBar.x + gaugeBar.width / 2 - gaugeCircle.width / 2;
+                fartop = gaugeBar.y - gaugeBar.height / 2;
+                farbottom = gaugeBar.y + gaugeBar.height / 2;
+                diff = farright - farleft; //342-72 = 270
+                scale = diff / 100; //2.7
+                if (pos < farleft) {
+                    holdCircle = false;
+                    gaugeCircsle.x = farleft;
                 }
-                else if(pos > farright){
-                    gaugeCircle.x=farright;
+                else if (pos > farright) {
+                    holdCircle = false;
+                    gaugeCircle.x = farright;
+                }
+                if (posy > farbottom || posy < fartop) {
+                    holdCircle = false;
                 }
                 else {
-                    gaugeCircle.x=pos;
+                    gaugeCircle.x = pos;
                 }
-                gaugeValue=parseInt((gaugeCircle.x-farleft)/scale);
-                speed=gaugeValue/5;
-                txt1.text="SPEED="+speed;
+                gaugeValue = parseInt((gaugeCircle.x - farleft) / scale);
+                speed = gaugeValue / 10;
+                txt1.text = "SPEED=" + speed;
             }
         });
-        gaugeCircle.on('pointerup', function () { 
-            if(holdCircle==true){
-            holdCircle=false;
-            Arrowangle=arrowContainer.angle;
-            app.ticker.remove(rotateTicker);
-            app.ticker.add(flyTicker);
+        gaugeCircle.on('pointerup', function () {
+            if (holdCircle == true) {
+                holdCircle = false;
+                Arrowangle = arrowContainer.angle;
+
+                app.ticker.add(flyTicker);
             }
         });
     }
 }
-
-function stopArrow(rotateTicker)
-{
+function hitboard(scorebox, score, txt) {
+    let fullstar = new PIXI.Texture.from("images/star.png");
+    let scrbx = scorebox;
+    let width = scrbx.scoreline.width;
+    let sw = app.view.width, sh = app.view.height;
+    if (width < sw * 7 / 8) {
+        scrbx.scoreline.clear();
+        width += score;
+        if (width > sw * 7 / 8) {
+            width = sw * 7 / 8;
+        }
+        scrbx.drawScoreline(sw, sh, width);
+        //scorebox.drawRect(sw/20+10,sh/20+5,width,20);
+        txt.text = scrbx.star1.s.x;
+        if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count == 0) {
+            scrbx.star1.s.texture = fullstar;
+            displayBox(app);
+            Board.count++;
+        }
+        if (scrbx.scoreline.width >= scrbx.star2.s.x && Board.count == 1) {
+            scrbx.star2.s.texture = fullstar;
+            displayBox(app);
+            Board.count++;
+        }
+    } else if (Board.count == 2) {
+        scrbx.star3.s.texture = fullstar;
+        displayBox(app);
+        Board.count++;
+    }
+}
+function stopArrow(rotateTicker) {
     rotateTicker.stop();
 }
 

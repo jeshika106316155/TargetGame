@@ -182,7 +182,6 @@ function a() {
     app.stage.addChild(buttons);
 }
 function onbuttonquestiondown() {
-    //console.log(bt);
     a();
 }
 function onremovebuttonfema() {
@@ -195,14 +194,10 @@ function onbuttonokdown() {
     app.stage.addChild(buttonmale);
 }
 function gameLoop(delta) {
-
-    //Move the cat 1 pixel 
     textup2.x -= 1;
     textup2.y += 1;
 }
 function checkLoop(delta) {
-
-    //Move the cat 1 pixel 
     if (textup2.y == app.view.height / 2) {
         app.ticker.stop();
     }
