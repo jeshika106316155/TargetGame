@@ -13,7 +13,7 @@ git branch // to check all branches current branch will have * sign
 git status //to check status of file
 git add .  //add untraced files
 git commit -a -m 'keterangan'c
-git push origin aosp_in_docker // push changes
+git push origin branch_name // push changes
 git status // check if success
 
 SYNC WITH MASTER
