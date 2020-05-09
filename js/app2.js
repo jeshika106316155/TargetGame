@@ -55,20 +55,26 @@ class Board {
         this.radius = radius;
         this.score = score;
         this.scorebox = scorebox;
-        this.board = new PIXI.Graphics();
-        this.board.beginFill(color);
+        this.board = new PIXI.Sprite.from("images/" + color + ".png");
+        this.board.anchor.set(0.5);
+        this.board.x = sw / 2;
+        this.board.y = sh * 1 / 4;
+        this.board.width = radius * 2;
+        this.board.height = radius * 2;
+        //this.board = new PIXI.Graphics();
+        //this.board.beginFill(color);
         //this.board.lineStyle(1, color);
-        this.board.drawCircle(sw / 2, sh * 1 / 4, radius);
-        this.board.interactive = true;
+        //this.board.drawCircle(sw / 2, sh * 1 / 4, radius);
+        //this.board.interactive = true;
 
         //this.board.click = this.hitBoard;
-        this.board.click = function () {
-            //hitboard(scorebox, score, txt);
-            // var txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-            // app.stage.addChild(txt);
-            // txt.x = sw / 2;
-            // txt.y = sh / 4;
-        };
+        // this.board.click = function () {
+        //     //hitboard(scorebox, score, txt);
+        // var txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+        // app.stage.addChild(txt);
+        // txt.x = sw / 2;
+        // txt.y = sh / 4;
+        // };
 
         app.stage.addChild(this.board);
     }
@@ -85,6 +91,8 @@ function init() {
     let semicircle, arrow, circle, backgroundimg;
     window.onload = function () {
         app = new PIXI.Application({
+            x: 0,
+            y: 0,
             width: 414,
             height: 736,
             backgroundcolor: 0xAAAAAA
@@ -115,9 +123,9 @@ function init() {
 
         scorebox = new CScore(app, sw, sh);
 
-        yellow = new Board(app, sw, sh, 0xFFFF00, 100, 10, scorebox);
-        pink = new Board(app, sw, sh, 0xFFC0CB, 80, 20, scorebox);
-        red = new Board(app, sw, sh, 0xFF00000, 60, 30, scorebox);
+        yellow = new Board(app, sw, sh, "yellow", 100, 10, scorebox);
+        pink = new Board(app, sw, sh, "pink", 80, 20, scorebox);
+        red = new Board(app, sw, sh, "red", 60, 30, scorebox);
 
 
         uterus = new PIXI.Sprite.from("images/uterus.png");
@@ -128,6 +136,11 @@ function init() {
         uterus.width = uterus.height;
         app.stage.addChild(uterus);
 
+        txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+        app.stage.addChild(txt);
+        txt.anchor.set(0.5);
+        txt.x = uterus.x;
+        txt.y = uterus.y;
         semicircle = new this.PIXI.Graphics();
         semicircle.beginFill(0x00FF00);
         semicircle.lineStyle(2, 0x00FF00);
@@ -159,7 +172,7 @@ function init() {
         arrow.lineStyle(2, 0xFF0000);
         arrow.drawPolygon(new PIXI.Polygon(points));
         arrowContainer.addChild(arrow);
-        arrowContainer.angle = 80;
+        arrowContainer.angle = 90;
         arrowContainer.interactive = true;
 
         var k = 1;
@@ -175,19 +188,20 @@ function init() {
             if (counter == 50) {
                 app.ticker.remove(flyTicker);
                 counter = 0;
-                var centerx = sw / 2, centery = (sh * 1 / 4) + 7;
+                var centerx = sw / 2, centery = (sh * 1 / 4);//+7
                 var arrx = arrowContainer.x, arry = arrowContainer.y;
 
                 txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
                 app.stage.addChild(txt);
                 var conheigh = arrowContainer.width;
-                txt.y = arrowContainer.y - 25;
-                txt.x = arrowContainer.x - 5;
-                for (var i = 0; i < arrowContainer.width; i++) {
+                txt.anchor.set(0.5);
+                txt.y = arrowContainer.y;//-25
+                txt.x = arrowContainer.x;//-5
+                for (var i = 0; i < arrowContainer.width + 15; i++) {
                     txt.x = txt.x - Math.cos(arrowContainer.rotation);
                     txt.y = txt.y - Math.sin(arrowContainer.rotation);
                 }
-                var txtx = txt.x + 5, txty = txt.y + 25;
+                var txtx = txt.x, txty = txt.y;//+ 5+ 25
                 var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
                 //txt.y = arrowContainer.y - 15;//(arrowContainer.width - 15) *
                 //txt.x = arrowContainer.x - (Math.cos(arrowContainer.rotation));
