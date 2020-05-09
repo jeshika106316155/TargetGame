@@ -35,7 +35,7 @@ class CScore {
         this.star2 = new CStar(this.container, sw, sh, sw * 2 / 3, this.emptystar);
         this.star3 = new CStar(this.container, sw, sh, sw * 18 / 20, this.emptystar);
 
-        app.stage.addChild(this.container)
+        femaleContainer.addChild(this.container)
     }
     drawScoreline(sw, sh, width) {
         this.scoreline.beginFill(0xffc107);
@@ -61,37 +61,7 @@ class Board {
         this.board.y = sh * 1 / 4;
         this.board.width = radius * 2;
         this.board.height = radius * 2;
-        //this.board = new PIXI.Graphics();
-        //this.board.beginFill(color);
-        //this.board.lineStyle(1, color);
-        //this.board.drawCircle(sw / 2, sh * 1 / 4, radius);
-        //this.board.interactive = true;
-
-        //this.board.click = this.hitBoard;
-        // this.board.click = function () {
-        //     //hitboard(scorebox, score, txt);
-        // var txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-        // app.stage.addChild(txt);
-        // txt.anchor.set(0.5);
-        // txt.x = this.board.x - radius;
-        // txt.y = this.board.y - radius;
-        // txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-        // app.stage.addChild(txt);
-        // txt.anchor.set(0.5);
-        // txt.x = this.board.x + radius;
-        // txt.y = this.board.y - radius;
-
-        // };
-
-        app.stage.addChild(this.board);
-        // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFFFF, stroke: 'black', strokeThickness: 1, align: 'center' });
-        // app.stage.addChild(txt);
-        // txt.anchor.set(0.5);
-        // txt.x = this.board.x;
-        // txt.y = this.board.y - radius;
-    }
-    hitBoard(e, scorebox) {
-
+        femaleContainer.addChild(this.board);
     }
 }
 
@@ -122,23 +92,27 @@ function init() {
 
         sw = app.view.width, sh = app.view.height;
 
+        femaleContainer= new PIXI.Container();
+        app.stage.addChild(femaleContainer);
+
+
         let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-        app.stage.addChild(txt);
+        femaleContainer.addChild(txt);
         txt = new PIXI.Text("RED=30", { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 200;
-        app.stage.addChild(txt);
+        femaleContainer.addChild(txt);
         txt = new PIXI.Text("PINK=20", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 225;
-        app.stage.addChild(txt);
+        femaleContainer.addChild(txt);
         txt = new PIXI.Text("YELLOW=10", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt.y = 255;
-        app.stage.addChild(txt);
+        femaleContainer.addChild(txt);
 
-        scorebox = new CScore(app, sw, sh);
+        scorebox = new CScore(femaleContainer, sw, sh);
 
-        yellow = new Board(app, sw, sh, "yellow", 100, 10, scorebox);
-        pink = new Board(app, sw, sh, "pink", 80, 20, scorebox);
-        red = new Board(app, sw, sh, "red", 60, 30, scorebox);
+        yellow = new Board(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
+        pink = new Board(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
+        red = new Board(femaleContainer, sw, sh, "red", 60, 30, scorebox);
 
 
         uterus = new PIXI.Sprite.from("images/uterus.png");
@@ -147,7 +121,7 @@ function init() {
         uterus.y = sh * 1 / 4;
         uterus.height = 100;
         uterus.width = uterus.height;
-        app.stage.addChild(uterus);
+        femaleContainer.addChild(uterus);
 
         semicircle = new this.PIXI.Graphics();
         semicircle.beginFill(0x00FF00);
@@ -157,13 +131,13 @@ function init() {
             x: sw / 2,
             y: sh * 7 / 8
         };
-        app.stage.addChild(semicircle);
+        femaleContainer.addChild(semicircle);
 
         circle = new this.PIXI.Graphics();
         circle.beginFill(0xFF0000);
         circle.lineStyle(2, 0xFF0000);
         circle.drawCircle(sw / 2, sh * 13 / 16, 20);
-        app.stage.addChild(circle);
+        femaleContainer.addChild(circle);
 
 
         arrow = new PIXI.Sprite.from("images/arrow.png");
@@ -173,7 +147,7 @@ function init() {
         arrow.angle = 90;
         arrow.x = sw / 2;
         arrow.y = sh * 13 / 16;
-        app.stage.addChild(arrow);
+        femaleContainer.addChild(arrow);
 
         var k = 1;
         let rotateTicker = () => {
@@ -187,7 +161,7 @@ function init() {
         let fadeTicker = () => {
             if (counter == 50) {
                 app.ticker.remove(fadeTicker);
-                app.stage.removeChild(arrow);
+                femaleContainer.removeChild(arrow);
                 if (displayed == false) {
                     initArrow(app, arrow, counter, gaugeCircle);
                 }
@@ -209,7 +183,7 @@ function init() {
 
                 var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
                 txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-                app.stage.addChild(txt);
+                femaleContainer.addChild(txt);
 
                 if (r2 <= Math.pow(red.radius, 2)) {
                     displayed = hitboard(scorebox, red.score, txt);
@@ -239,11 +213,11 @@ function init() {
         //app.ticker.add(rotateTicker);
 
         var gaugeContainer = new PIXI.Container();
-        app.stage.addChild(gaugeContainer);
+        femaleContainer.addChild(gaugeContainer);
 
         let txt1 = new PIXI.Text("SPEED=0", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
         txt1.y = 400;
-        app.stage.addChild(txt1);
+        femaleContainer.addChild(txt1);
 
         gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
         gaugeBar.anchor.set(0.5);
@@ -338,7 +312,7 @@ function hitboard(scorebox, score, txt) {
 function initArrow() {
     arrow.x = sw / 2;
     arrow.y = sh * 13 / 16;
-    app.stage.addChild(arrow);
+    femaleContainer.addChild(arrow);
     counter = 0;
     gaugeCircle.x = sw / 2;
     gaugeCircle.interactive = true;
