@@ -71,23 +71,7 @@ function initFemale() {
     let yellow, pink, red, uterus;
     let scorebox;
     let semicircle, circle, backgroundimg;
-    // window.onload = function () {
-    //     app = new PIXI.Application({
-    //         x: 0,
-    //         y: 0,
-    //         width: 414,
-    //         height: 736,
-    //         backgroundcolor: 0xAAAAAA
-    //     });
-    //     document.body.appendChild(app.view);
 
-    backgroundimg = new PIXI.Sprite.from("images/bg1.jpg");
-    backgroundimg.anchor.set(0);
-    backgroundimg.height = app.view.height;
-    backgroundimg.width = app.view.width;
-    backgroundimg.x = 0;
-    backgroundimg.y = 0;
-    app.stage.addChild(backgroundimg);
 
     sw = app.view.width, sh = app.view.height;
 
