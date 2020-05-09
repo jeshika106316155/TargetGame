@@ -95,13 +95,13 @@ function init() {
 }
 function onbuttonfedown(bt) {
     this.isdown = true;
+    app.stage.removeChild(homecontainer);
     if (bt.target.myCustomProperty == feimage) {
-        bt.target._texture = texturefe2;
+        initFemale();
     }
     else if (bt.target.myCustomProperty == maimage) {
-        bt.target._texture = texturema2;
     }
-    window.location.href = "game.html";
+    //window.location.href = "game.html";
 }
 function onbuttonover(bt) {
     this.isOver = true;
@@ -137,7 +137,7 @@ function onbuttonquestiondown() {
 
     var h1 = app.view.height / 3;
     var w1 = 30, w2 = app.view.width - (2 * w1);
-    buttons = new PIXI.Container();
+    var buttons = new PIXI.Container();
     buttonok = new PIXI.Sprite.from(textureok);
 
     buttonok.buttonMode = true;
@@ -149,7 +149,7 @@ function onbuttonquestiondown() {
     buttonok.myCustomProperty = this.okimage;
     buttonok.interactive = true;
     buttonok.buttonMode = true;
-    buttonok.on('pointerdown', onbuttonokdown);
+    buttonok.on('pointerdown', function () { app.stage.removeChild(buttons); });
 
     var buttonEndTurn = new PIXI.Graphics();
     buttonEndTurn.beginFill(0xFF2342);
@@ -169,7 +169,4 @@ function onbuttonquestiondown() {
     buttons.addChild(buttonok);
 
     app.stage.addChild(buttons);
-}
-function onbuttonokdown() {
-    app.stage.removeChild(buttons);
 }
