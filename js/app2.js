@@ -72,11 +72,23 @@ class Board {
         //     //hitboard(scorebox, score, txt);
         // var txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
         // app.stage.addChild(txt);
-        // txt.x = sw / 2;
-        // txt.y = sh / 4;
+        // txt.anchor.set(0.5);
+        // txt.x = this.board.x - radius;
+        // txt.y = this.board.y - radius;
+        // txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+        // app.stage.addChild(txt);
+        // txt.anchor.set(0.5);
+        // txt.x = this.board.x + radius;
+        // txt.y = this.board.y - radius;
+
         // };
 
         app.stage.addChild(this.board);
+        // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFFFF, stroke: 'black', strokeThickness: 1, align: 'center' });
+        // app.stage.addChild(txt);
+        // txt.anchor.set(0.5);
+        // txt.x = this.board.x;
+        // txt.y = this.board.y - radius;
     }
     hitBoard(e, scorebox) {
 
@@ -84,11 +96,12 @@ class Board {
 }
 
 Board.count = 0;
+let gaugeCircle;
 
 function init() {
     let yellow, pink, red, uterus;
     let scorebox;
-    let semicircle, arrow, circle, backgroundimg;
+    let semicircle, circle, backgroundimg;
     window.onload = function () {
         app = new PIXI.Application({
             x: 0,
@@ -107,7 +120,7 @@ function init() {
         backgroundimg.y = 0;
         app.stage.addChild(backgroundimg);
 
-        let sw = app.view.width, sh = app.view.height;
+        sw = app.view.width, sh = app.view.height;
 
         let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
         app.stage.addChild(txt);
@@ -136,11 +149,6 @@ function init() {
         uterus.width = uterus.height;
         app.stage.addChild(uterus);
 
-        txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-        app.stage.addChild(txt);
-        txt.anchor.set(0.5);
-        txt.x = uterus.x;
-        txt.y = uterus.y;
         semicircle = new this.PIXI.Graphics();
         semicircle.beginFill(0x00FF00);
         semicircle.lineStyle(2, 0x00FF00);
@@ -155,75 +163,75 @@ function init() {
         circle.beginFill(0xFF0000);
         circle.lineStyle(2, 0xFF0000);
         circle.drawCircle(sw / 2, sh * 13 / 16, 20);
-        //circle.on('pointerdown')
         app.stage.addChild(circle);
 
-        var arrowContainer = new PIXI.Container();
-        app.stage.addChild(arrowContainer);
 
-        arrowContainer.x = sw / 2;
-        arrowContainer.y = sh * 13 / 16;
-        arrowContainer.pivot.x = arrowContainer.width / 2;
-        arrowContainer.pivot.y = arrowContainer.height / 2;
-
-        var points = [new PIXI.Point(0, -15), new PIXI.Point(0, 15), new PIXI.Point(-150, 0)];
-        arrow = new this.PIXI.Graphics();
-        arrow.beginFill(0xFF0000);
-        arrow.lineStyle(2, 0xFF0000);
-        arrow.drawPolygon(new PIXI.Polygon(points));
-        arrowContainer.addChild(arrow);
-        arrowContainer.angle = 90;
-        arrowContainer.interactive = true;
+        arrow = new PIXI.Sprite.from("images/arrow.png");
+        arrow.anchor.set(1, 0.5);
+        arrow.width = 150;
+        arrow.height = 40;
+        arrow.angle = 90;
+        arrow.x = sw / 2;
+        arrow.y = sh * 13 / 16;
+        app.stage.addChild(arrow);
 
         var k = 1;
         let rotateTicker = () => {
-            var angle = arrowContainer.angle;
-            if (arrowContainer.angle < 0 || arrowContainer.angle > 180) { k = -k; }
-            arrowContainer.angle += k;
+            var angle = arrow.angle;
+            if (arrow.angle < 0 || arrow.angle > 180) { k = -k; }
+            arrow.angle += k;
         }
 
+        var displayed = false;
+        counter = 0;
+        let fadeTicker = () => {
+            if (counter == 50) {
+                app.ticker.remove(fadeTicker);
+                app.stage.removeChild(arrow);
+                if (displayed == false) {
+                    initArrow(app, arrow, counter, gaugeCircle);
+                }
+            }
+            counter++;
+        }
         var speed = 5; //1-20
-        var counter = 0;
+
         var flyTicker = () => {
             if (counter == 50) {
                 app.ticker.remove(flyTicker);
                 counter = 0;
-                var centerx = sw / 2, centery = (sh * 1 / 4);//+7
-                var arrx = arrowContainer.x, arry = arrowContainer.y;
-
-                txt = new PIXI.Text(".", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-                app.stage.addChild(txt);
-                var conheigh = arrowContainer.width;
-                txt.anchor.set(0.5);
-                txt.y = arrowContainer.y;//-25
-                txt.x = arrowContainer.x;//-5
-                for (var i = 0; i < arrowContainer.width + 15; i++) {
-                    txt.x = txt.x - Math.cos(arrowContainer.rotation);
-                    txt.y = txt.y - Math.sin(arrowContainer.rotation);
+                var centerx = yellow.board.x, centery = yellow.board.y;
+                var txtx = arrow.x, txty = arrow.y;
+                for (var i = 0; i <= arrow.width; i++) {
+                    txtx -= Math.cos(arrow.rotation);
+                    txty -= Math.sin(arrow.rotation);
                 }
-                var txtx = txt.x, txty = txt.y;//+ 5+ 25
+
                 var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
-                //txt.y = arrowContainer.y - 15;//(arrowContainer.width - 15) *
-                //txt.x = arrowContainer.x - (Math.cos(arrowContainer.rotation));
                 txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
                 app.stage.addChild(txt);
-                if (r2 <= Math.pow(60, 2)) {
-                    hitboard(scorebox, 30, txt);
-                    txt1.text = "merah";
+
+                if (r2 <= Math.pow(red.radius, 2)) {
+                    displayed = hitboard(scorebox, red.score, txt);
+                    txt1.text = "red";
                 }
-                else if (r2 <= Math.pow(80, 2)) {
-                    hitboard(scorebox, 20, txt);
-                    txt1.text = "pink";//pink
+                else if (r2 <= Math.pow(pink.radius, 2)) {
+                    displayed = hitboard(scorebox, pink.score, txt);
+                    txt1.text = "pink";
                 }
-                else if (r2 <= Math.pow(100, 2)) {
-                    hitboard(scorebox, 10, txt);
-                    txt1.text = "kuning";//kuning
+                else if (r2 <= Math.pow(yellow.radius, 2)) {
+                    displayed = hitboard(scorebox, yellow.score, txt);
+                    txt1.text = "yellow";
                 }
+                app.ticker.add(fadeTicker);
+                counter = 0;
+
             }
 
-            arrowContainer.x = arrowContainer.x - Math.cos(arrowContainer.rotation) * speed;
-            arrowContainer.y = arrowContainer.y - Math.sin(arrowContainer.rotation) * speed;
+            arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
+            arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
             counter++;
+            gaugeCircle.interactive = false;
 
 
         }
@@ -287,8 +295,7 @@ function init() {
         gaugeCircle.on('pointerup', function () {
             if (holdCircle == true) {
                 holdCircle = false;
-                Arrowangle = arrowContainer.angle;
-
+                Arrowangle = arrow.angle;
                 app.ticker.add(flyTicker);
             }
         });
@@ -312,25 +319,33 @@ function hitboard(scorebox, score, txt) {
             scrbx.star1.s.texture = fullstar;
             displayBox(app);
             Board.count++;
+            return true;
         }
         if (scrbx.scoreline.width >= scrbx.star2.s.x && Board.count == 1) {
             scrbx.star2.s.texture = fullstar;
             displayBox(app);
             Board.count++;
+            return true;
         }
     } else if (Board.count == 2) {
         scrbx.star3.s.texture = fullstar;
         displayBox(app);
         Board.count++;
+        return true;
     }
+    return false;
 }
-function stopArrow(rotateTicker) {
-    rotateTicker.stop();
+function initArrow() {
+    arrow.x = sw / 2;
+    arrow.y = sh * 13 / 16;
+    app.stage.addChild(arrow);
+    counter = 0;
+    gaugeCircle.x = sw / 2;
+    gaugeCircle.interactive = true;
 }
 
 function displayBox(app) {
     let buttonok;
-
     var textureok = PIXI.Texture.from('images/ok.png');
 
     var h1 = app.view.height / 3;
@@ -376,6 +391,7 @@ function displayBox(app) {
 }
 
 function onbuttonokdown() {
-
     app.stage.removeChild(buttons);
+    displayed = false;
+    initArrow();
 }

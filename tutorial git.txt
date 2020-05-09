@@ -12,7 +12,7 @@ git checkout -b nama_branch //checkout a branch and switch into it
 git branch // to check all branches current branch will have * sign
 git status //to check status of file
 git add .  //add untraced files
-git commit -a -m 'keterangan'
+git commit -a -m 'keterangan'c
 git push origin aosp_in_docker // push changes
 git status // check if success
 
