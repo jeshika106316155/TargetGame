@@ -165,19 +165,19 @@ function initFemale() {
             }
 
             var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
-            txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-            femaleContainer.addChild(txt);
+            var txt2 = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
+            femaleContainer.addChild(txt2);
 
             if (r2 <= Math.pow(red.radius, 2)) {
-                displayed = hitboard(scorebox, red.score, txt);
+                displayed = hitboard(scorebox, red.score, txt2);
                 txt1.text = "red";
             }
             else if (r2 <= Math.pow(pink.radius, 2)) {
-                displayed = hitboard(scorebox, pink.score, txt);
+                displayed = hitboard(scorebox, pink.score, txt2);
                 txt1.text = "pink";
             }
             else if (r2 <= Math.pow(yellow.radius, 2)) {
-                displayed = hitboard(scorebox, yellow.score, txt);
+                displayed = hitboard(scorebox, yellow.score, txt2);
                 txt1.text = "yellow";
             }
             app.ticker.add(fadeTicker);
@@ -258,7 +258,7 @@ function initFemale() {
     });
     //}
 }
-function hitboard(scorebox, score, txt) {
+function hitboard(scorebox, score, txt2) {
     let fullstar = new PIXI.Texture.from("images/star.png");
     let scrbx = scorebox;
     let width = scrbx.scoreline.width;
@@ -271,7 +271,7 @@ function hitboard(scorebox, score, txt) {
         }
         scrbx.drawScoreline(sw, sh, width);
         //scorebox.drawRect(sw/20+10,sh/20+5,width,20);
-        txt.text = scrbx.star1.s.x;
+        txt2.text = score;
         if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count == 0) {
             Board.count++;
             scrbx.star1.s.texture = fullstar;
