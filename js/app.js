@@ -25,7 +25,7 @@ function init() {
         app = new PIXI.Application(
             {
                 width: 414,
-                height: 736,
+                height: 669,//736,
                 backgroundcolor: 0xAAAAAA
             }
         );

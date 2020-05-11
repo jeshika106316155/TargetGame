@@ -1,127 +1,135 @@
-//init();
-
-class CStar {
-    constructor(container, sw, sh, x, texture, ) {
-        this.s = new PIXI.Sprite(texture);
-        this.s.anchor.set(0.5, 0.5);
-        this.s.x = x;
-        this.s.y = sh * 1 / 20 + (sh / 20 / 3);
-        this.s.height = 50;
-        this.s.width = this.s.height;
-        container.addChild(this.s);
+class CStar extends PIXI.Sprite{
+    constructor(container, x) {
+        super(PIXI.Texture.fromImage("Assets/star_empty.png"));
+        this.anchor.set(0);
+        this.x = x;
+        this.y = 22;
+        this.height = 38;
+        this.width = 40;
+        container.addChild(this);
     }
 }
 
 class CScore {
-    constructor(app, sw, sh) {
+    constructor() {
         this.container = new PIXI.Container();
 
-        this.scorebg = new PIXI.Graphics();
-        this.scorebg.beginFill(0xFFFFFF);
-        this.scorebg.lineStyle(2, 0xFFFFFF);
-        this.scorebg.drawRect(sw / 20, sh / 20, sw * 18 / 20, 30);
+        this.score=0;
+
+        this.scorebg = new PIXI.Sprite.from("Assets/girl_pt_bar_empty.png");
+        this.scorebg.anchor.set(0);
+        this.scorebg.x=19;
+        this.scorebg.y=26;
+        this.scorebg.width=378;
+        this.scorebg.height=33;
         this.container.addChild(this.scorebg);
 
-        this.scoreline = new PIXI.Graphics();
-        this.scoreline.beginFill(0xffc107);
-        this.scoreline.lineStyle(2, 0xFFFF00);
-        this.scoreline.drawRect(sw / 20 + 10, sh / 20 + 5, 0.5, 20);
+        this.scoreline = new PIXI.Sprite.from("Assets/girl_pt_bar_full.png");
+        this.scoreline.anchor.set(0);
+        this.scoreline.x=19;
+        this.scoreline.y=26;
+        this.scoreline.width=378;
+        this.scoreline.height=33;
         this.container.addChild(this.scoreline);
-
-        this.emptystar = new PIXI.Texture.from("images/emptystar.png");
-
-        this.star1 = new CStar(this.container, sw, sh, sw / 3, this.emptystar);
-        this.star2 = new CStar(this.container, sw, sh, sw * 2 / 3, this.emptystar);
-        this.star3 = new CStar(this.container, sw, sh, sw * 18 / 20, this.emptystar);
+       
+        this.star1 = new CStar(this.container, 61);
+        this.star2 = new CStar(this.container, 130);
+        this.star3 = new CStar(this.container, 200);
+        this.star4 = new CStar(this.container, 271);
+        this.star5 = new CStar(this.container, 348);
 
         femaleContainer.addChild(this.container)
     }
-    drawScoreline(sw, sh, width) {
-        this.scoreline.beginFill(0xffc107);
-        this.scoreline.lineStyle(2, 0xFFFF00);
-        this.scoreline.drawRect(sw / 20 + 10, sh / 20 + 5, width, 20);
-        this.scoreline.zIndex = 1;
-    }
 }
 
-class Board {
+class CBoard extends PIXI.Sprite{
     static count;
-    constructor(app, sw, sh, color, radius, score, scorebox) {
-        this.app = app;
-        this.sw = sw;
-        this.sh = sh;
-        this.color = color;
-        this.radius = radius;
+    constructor(pict, x, y, width, height, score, scorebox) {
+        super(PIXI.Texture.fromImage("Assets/" + pict + ".png"));
+        this.pict = pict;
+        this.anchor.set(0);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.score = score;
         this.scorebox = scorebox;
-        this.board = new PIXI.Sprite.from("images/" + color + ".png");
-        this.board.anchor.set(0.5);
-        this.board.x = sw / 2;
-        this.board.y = sh * 1 / 4;
-        this.board.width = radius * 2;
-        this.board.height = radius * 2;
-        femaleContainer.addChild(this.board);
+        femaleContainer.addChild(this);
     }
 }
 
-Board.count = 0;
+CBoard.count = 0;
 let gaugeCircle;
 
 function initFemale() {
+    sw = app.view.width, sh = app.view.height;
+
     let yellow, pink, red, uterus;
     let scorebox;
-    let semicircle, circle, backgroundimg;
-
-
-    sw = app.view.width, sh = app.view.height;
+    let semicircle, circle;
 
     femaleContainer = new PIXI.Container();
     app.stage.addChild(femaleContainer);
 
+    scorebox = new CScore(femaleContainer, sw, sh);
+
+    dartBorder = new PIXI.Sprite.from("Assets/border.png");
+    dartBorder.anchor.set(0);
+    dartBorder.x = 64;
+    dartBorder.y = 90;
+    dartBorder.width = 283;
+    dartBorder.height = 290;
+    femaleContainer.addChild(dartBorder);
+
+    top_10pt = new CBoard(femaleContainer,"10pt_top", 247, 123,  95, 113, 10, scorebox);
+    bot_10pt = new CBoard(femaleContainer, "10pt_bot",  57, 236, 102, 111, 10, scorebox);
+    top_20pt = new CBoard(femaleContainer, "20pt_top", 67, 125, 98, 108, 20, scorebox);
+    bot_20pt = new CBoard(femaleContainer, "20pt_bot", 252, 237, 93, 110, 20, scorebox);
+    top_30pt = new CBoard(femaleContainer, "30pt_top",132, 98,  129, 77, 30, scorebox);
+    bot_30pt = new CBoard(femaleContainer,"30pt_bot", 141, 292,  134, 84, 30, scorebox);
+    pt40 = new CBoard(femaleContainer,"40pt",  137, 170, 131, 133, 40, scorebox);
 
     let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
     femaleContainer.addChild(txt);
-    txt = new PIXI.Text("RED=30", { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
+    txt = new PIXI.Text("RED="+red.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
     txt.y = 200;
     femaleContainer.addChild(txt);
-    txt = new PIXI.Text("PINK=20", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
+    txt = new PIXI.Text("PINK="+pink.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
     txt.y = 225;
     femaleContainer.addChild(txt);
-    txt = new PIXI.Text("YELLOW=10", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
+    txt = new PIXI.Text("YELLOW="+yellow.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
     txt.y = 255;
     femaleContainer.addChild(txt);
 
-    scorebox = new CScore(femaleContainer, sw, sh);
-
-    yellow = new Board(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
-    pink = new Board(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
-    red = new Board(femaleContainer, sw, sh, "red", 60, 30, scorebox);
-
-
-    uterus = new PIXI.Sprite.from("images/uterus.png");
-    uterus.anchor.set(0.5);
-    uterus.x = sw / 2;
-    uterus.y = sh * 1 / 4;
-    uterus.height = 100;
-    uterus.width = uterus.height;
+    uterus = new PIXI.Sprite.from("Assets/uterus.png");
+    uterus.anchor.set(0);
+    uterus.x = 160;
+    uterus.y = 199;
+    uterus.height = 72;
+    uterus.width = 88;
     femaleContainer.addChild(uterus);
 
-    semicircle = new this.PIXI.Graphics();
-    semicircle.beginFill(0x00FF00);
-    semicircle.lineStyle(2, 0x00FF00);
-    semicircle.arc(0, 0, 100, Math.PI, 0); // cx, cy, radius, startAngle, endAngle
-    semicircle.position = {
-        x: sw / 2,
-        y: sh * 7 / 8
-    };
+    var semicircGraphic = new this.PIXI.Graphics();
+    semicircGraphic.beginFill(0x00FF00);
+    semicircGraphic.lineStyle(2, 0x00FF00);
+    semicircGraphic.arc(0, 0, 100, Math.PI, 0); // cx, cy, radius, startAngle, endAngle
+    var semicircTexture = app.renderer.generateTexture(semicircGraphic);
+    semicircle= new PIXI.Sprite(semicircTexture);
+    semicircle.anchor.set(0.5,1);
+    semicircle.x=sw/2;
+    semicircle.y=sh*7/8;
     femaleContainer.addChild(semicircle);
 
-    circle = new this.PIXI.Graphics();
-    circle.beginFill(0xFF0000);
-    circle.lineStyle(2, 0xFF0000);
-    circle.drawCircle(sw / 2, sh * 13 / 16, 20);
+    var circleGraphic = new this.PIXI.Graphics();
+    circleGraphic.beginFill(0xFF0000);
+    circleGraphic.lineStyle(2, 0xFF0000);
+    circleGraphic.drawCircle(0, 0, 20);
+    var circleTexture = app.renderer.generateTexture(circleGraphic);
+    circle= new PIXI.Sprite(circleTexture);
+    circle.anchor.set(0.5);
+    circle.x=sw/2;
+    circle.y=sh*13/16;
     femaleContainer.addChild(circle);
-
 
     arrow = new PIXI.Sprite.from("images/arrow.png");
     arrow.anchor.set(1, 0.5);
@@ -151,13 +159,18 @@ function initFemale() {
         }
         counter++;
     }
+
+    let scoreTxt = new PIXI.Text("SCORE=0", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+    scoreTxt.y = 0;
+    femaleContainer.addChild(scoreTxt);
+
     var speed = 5; //1-20
 
     var flyTicker = () => {
         if (counter == 50) {
             app.ticker.remove(flyTicker);
             counter = 0;
-            var centerx = yellow.board.x, centery = yellow.board.y;
+            var centerx = yellow.x, centery = yellow.y;
             var txtx = arrow.x, txty = arrow.y;
             for (var i = 0; i <= arrow.width; i++) {
                 txtx -= Math.cos(arrow.rotation);
@@ -165,19 +178,18 @@ function initFemale() {
             }
 
             var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
-            var txt2 = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-            femaleContainer.addChild(txt2);
+            femaleContainer.addChild(txt);
 
             if (r2 <= Math.pow(red.radius, 2)) {
-                displayed = hitboard(scorebox, red.score, txt2);
+                displayed = hitboard(scorebox, red.score, scoreTxt);
                 txt1.text = "red";
             }
             else if (r2 <= Math.pow(pink.radius, 2)) {
-                displayed = hitboard(scorebox, pink.score, txt2);
+                displayed = hitboard(scorebox, pink.score, scoreTxt);
                 txt1.text = "pink";
             }
             else if (r2 <= Math.pow(yellow.radius, 2)) {
-                displayed = hitboard(scorebox, yellow.score, txt2);
+                displayed = hitboard(scorebox, yellow.score, scoreTxt);
                 txt1.text = "yellow";
             }
             app.ticker.add(fadeTicker);
@@ -256,42 +268,52 @@ function initFemale() {
             app.ticker.add(flyTicker);
         }
     });
-    //}
 }
-function hitboard(scorebox, score, txt2) {
-    let fullstar = new PIXI.Texture.from("images/star.png");
+
+function hitboard(scorebox, score, txt) {
+    let fullstar = new PIXI.Texture.from("Assets/star_full.png");
     let scrbx = scorebox;
     let width = scrbx.scoreline.width;
-    let sw = app.view.width, sh = app.view.height;
+    let sw = app.view.width;
+
+    let counter = 0;
+    let waitTicker = () => {
+        if (counter == 30){
+            app.ticker.remove(waitTicker);
+            displayBox();
+        }
+        counter++;
+    }
+
     if (width < sw * 7 / 8) {
-        scrbx.scoreline.clear();
-        width += score;
+        scrbx.scoreline.width += score;
+        scrbx.score+=score;
         if (width > sw * 7 / 8) {
             width = sw * 7 / 8;
         }
-        scrbx.drawScoreline(sw, sh, width);
-        //scorebox.drawRect(sw/20+10,sh/20+5,width,20);
-        txt2.text = score;
-        if (scrbx.scoreline.width >= scrbx.star1.s.x && Board.count == 0) {
-            Board.count++;
-            scrbx.star1.s.texture = fullstar;
-            displayBox(app);
+        txt.text= "SCORE="+scrbx.score;
+        offsetX=scrbx.scoreline.x+scrbx.scoreline.width;
+        if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
+            scorebg.count++;
+            scrbx.star1.texture = fullstar;
+            app.ticker.add(waitTicker);
             return true;
         }
-        if (scrbx.scoreline.width >= scrbx.star2.s.x && Board.count == 1) {
-            Board.count++;
-            scrbx.star2.s.texture = fullstar;
-            displayBox(app);
+        if (offsetX >= scrbx.star2.x && CBoard.count == 1) {
+            CBoard.count++;
+            scrbx.star2.texture = fullstar;
+            app.ticker.add(waitTicker);
             return true;
         }
-    } else if (Board.count == 2) {
-        Board.count++;
-        scrbx.star3.s.texture = fullstar;
-        displayBox(app);
+    } else if (CBoard.count == 2) {
+        CBoard.count++;
+        scrbx.star3.texture = fullstar;
+        app.ticker.add(waitTicker);
         return true;
     }
     return false;
 }
+
 function initArrow() {
     arrow.x = sw / 2;
     arrow.y = sh * 13 / 16;
@@ -301,7 +323,7 @@ function initArrow() {
     gaugeCircle.interactive = true;
 }
 
-function displayBox(app) {
+function displayBox() {
     let buttonok;
     var textureok = PIXI.Texture.from('images/ok.png');
 
@@ -352,7 +374,7 @@ function displayBox(app) {
     buttons.addChild(blurbg);
     buttons.addChild(buttonEndTurn);
     buttons.addChild(text);
-    if (Board.count < 3) { buttons.addChild(buttonok); }
+    if (CBoard.count < 3) { buttons.addChild(buttonok); }
     else {
 
         buttons.addChild(buttonReplay);
@@ -363,13 +385,14 @@ function displayBox(app) {
 }
 
 function onGameOk() {
-    if (Board.count < 3) {
+    if (CBoard.count < 3) {
         app.stage.removeChild(buttons);
         displayed = false;
         initArrow();
     }
     else { onReplay(); };
 }
+
 function onReplay() {
     app.stage.removeChild(buttons);
     app.stage.removeChild(femaleContainer);
