@@ -1,4 +1,4 @@
-class CStar extends PIXI.Sprite{
+class CStar extends PIXI.Sprite {
     constructor(container, x) {
         super(PIXI.Texture.from("Assets/star_empty.png"));
         this.anchor.set(0);
@@ -14,24 +14,24 @@ class CScore {
     constructor() {
         this.container = new PIXI.Container();
 
-        this.score=0;
+        this.score = 0;
 
         this.scorebg = new PIXI.Sprite.from("Assets/girl_pt_bar_empty.png");
         this.scorebg.anchor.set(0);
-        this.scorebg.x=19;
-        this.scorebg.y=26;
-        this.scorebg.width=378;
-        this.scorebg.height=33;
+        this.scorebg.x = 19;
+        this.scorebg.y = 26;
+        this.scorebg.width = 378;
+        this.scorebg.height = 33;
         this.container.addChild(this.scorebg);
 
         this.scoreline = new PIXI.Sprite.from("Assets/girl_pt_bar_full.png");
         this.scoreline.anchor.set(0);
-        this.scoreline.x=19;
-        this.scoreline.y=26;
-        this.scoreline.width=1;
-        this.scoreline.height=33;
+        this.scoreline.x = 19;
+        this.scoreline.y = 26;
+        this.scoreline.width = 1;
+        this.scoreline.height = 33;
         this.container.addChild(this.scoreline);
-       
+
         this.star1 = new CStar(this.container, 61);
         this.star2 = new CStar(this.container, 130);
         this.star3 = new CStar(this.container, 200);
@@ -42,7 +42,7 @@ class CScore {
     }
 }
 
-class Board extends PIXI.Sprite{
+class Board extends PIXI.Sprite {
     static count;
     constructor(app, sw, sh, color, radius, score, scorebox) {
         super(PIXI.Texture.from("images/" + color + ".png"));
@@ -65,7 +65,7 @@ class Board extends PIXI.Sprite{
 
 Board.count = 0;
 
-class CBoard extends PIXI.Sprite{
+class CBoard extends PIXI.Sprite {
     static count;
     constructor(femaleContainer, pict, x, y, width, height, score, scorebox) {
         super(PIXI.Texture.from("Assets/" + pict + ".png"));
@@ -83,16 +83,16 @@ class CBoard extends PIXI.Sprite{
 
 CBoard.count = 0;
 
-class CArrow extends PIXI.Sprite{
+class CArrow extends PIXI.Sprite {
     constructor(container, color) {
-        super(PIXI.Texture.from("Assets/"+color+"_dart.png"));
-        this.anchor.set(1,0.5);
+        super(PIXI.Texture.from("Assets/" + color + "_dart.png"));
+        this.anchor.set(1, 0.5);
         this.color = color;
-        this.x = 188+15.5;
-        this.y = 437+97;
+        this.x = 188 + 15.5;
+        this.y = 437 + 97;
         this.width = 97;
         this.height = 31;
-        this.angle=90;
+        this.angle = 90;
         container.addChild(this);
     }
 }
@@ -120,14 +120,14 @@ function initFemale() {
 
     let scorebox = new CScore(femaleContainer, sw, sh);
 
-    
-    let top_10pt = new CBoard(femaleContainer,"10pt_top", 247, 123,  95, 113, 10, scorebox);
-    let bot_10pt = new CBoard(femaleContainer, "10pt_bot",  67, 236, 102, 111, 10, scorebox);
+
+    let top_10pt = new CBoard(femaleContainer, "10pt_top", 247, 123, 95, 113, 10, scorebox);
+    let bot_10pt = new CBoard(femaleContainer, "10pt_bot", 67, 236, 102, 111, 10, scorebox);
     let top_20pt = new CBoard(femaleContainer, "20pt_top", 67, 125, 98, 108, 20, scorebox);
     let bot_20pt = new CBoard(femaleContainer, "20pt_bot", 252, 237, 93, 110, 20, scorebox);
-    let top_30pt = new CBoard(femaleContainer, "30pt_top",132, 98,  129, 77, 30, scorebox);
-    let bot_30pt = new CBoard(femaleContainer,"30pt_bot", 141, 292,  134, 84, 30, scorebox);
-    let pt40 = new CBoard(femaleContainer,"40pt",  137, 170, 131, 133, 40, scorebox);
+    let top_30pt = new CBoard(femaleContainer, "30pt_top", 132, 98, 129, 77, 30, scorebox);
+    let bot_30pt = new CBoard(femaleContainer, "30pt_bot", 141, 292, 134, 84, 30, scorebox);
+    let pt40 = new CBoard(femaleContainer, "40pt", 137, 170, 131, 133, 40, scorebox);
 
     let dartBorder = new PIXI.Sprite.from("Assets/border.png");
     dartBorder.anchor.set(0);
@@ -170,8 +170,8 @@ function initFemale() {
     // txt.y = 255;
     // femaleContainer.addChild(txt);
 
-    str_bar_empty=new PIXI.Texture.from("Assets/str_bar_empty.png");
-    str_bar_full=new PIXI.Texture.from("Assets/str_bar_full.png");
+    str_bar_empty = new PIXI.Texture.from("Assets/str_bar_empty.png");
+    str_bar_full = new PIXI.Texture.from("Assets/str_bar_full.png");
     let str_bar = new PIXI.Sprite.from("Assets/str_bar_empty.png");
     str_bar.anchor.set(0);
     str_bar.x = 32;
@@ -216,7 +216,7 @@ function initFemale() {
     arrow = new CArrow(femaleContainer, "blue")
 
     var k = 1;
-    let rotateTicker = () => {
+    rotateTicker = () => {
         var angle = arrow.angle;
         if (arrow.angle < 0 || arrow.angle > 180) { k = -k; }
         arrow.angle += k;
@@ -229,7 +229,7 @@ function initFemale() {
             app.ticker.remove(fadeTicker);
             femaleContainer.removeChild(arrow);
             if (displayed == false) {
-                initArrow(app, arrow, counter, gaugeCircle);
+                initArrow(app, arrow, counter, gaugeCircle, rotateTicker);
             }
         }
         counter++;
@@ -248,18 +248,19 @@ function initFemale() {
             var centerx = yellow.x, centery = yellow.y;
             var txtx = arrow.x, txty = arrow.y;
             for (var i = 0; i <= arrow.width; i++) {
-                 txtx -= Math.cos(arrow.rotation);
-                 txty -= Math.sin(arrow.rotation);
-              //  txty -= Math.cos(arrow.rotation);
-               // txtx -= Math.sin(arrow.rotation);
+                txtx -= Math.cos(arrow.rotation);
+                txty -= Math.sin(arrow.rotation);
+                //  txty -= Math.cos(arrow.rotation);
+                // txtx -= Math.sin(arrow.rotation);
 
             }
-            txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-            txt.anchor.set(0.5);
-            txt.x=txtx;
-            txt.y=txty;
+            // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+            // txt.anchor.set(0.5);
+            // txt.x=txtx;
+            // txt.y=txty;
+            //femaleContainer.addChild(txt);
             var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
-            femaleContainer.addChild(txt);
+
 
             if (r2 <= Math.pow(red.radius, 2)) {
                 displayed = hitboard(scorebox, red.score, scoreTxt);
@@ -278,8 +279,8 @@ function initFemale() {
 
         }
 
-         arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
-         arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
+        arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
+        arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
         //arrow.y = arrow.y - Math.cos(arrow.rotation) * speed;
         //arrow.x = arrow.x - Math.sin(arrow.rotation) * speed;
         counter++;
@@ -361,7 +362,7 @@ function hitboard(scorebox, score, txt) {
 
     let counter = 0;
     let waitTicker = () => {
-        if (counter == 30){
+        if (counter == 30) {
             app.ticker.remove(waitTicker);
             displayBox();
         }
@@ -370,12 +371,12 @@ function hitboard(scorebox, score, txt) {
 
     if (width < scrbx.scorebg.width) {
         scrbx.scoreline.width += score;
-        scrbx.score+=score;
-        if (width >scrbx.scorebg.width) {
+        scrbx.score += score;
+        if (width > scrbx.scorebg.width) {
             width = scrbx.scorebg.width;
         }
-        txt.text= "SCORE="+scrbx.score;
-        offsetX=scrbx.scoreline.x+scrbx.scoreline.width;
+        txt.text = "SCORE=" + scrbx.score;
+        offsetX = scrbx.scoreline.x + scrbx.scoreline.width;
         if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
             CBoard.count++;
             scrbx.star1.texture = fullstar;
@@ -414,6 +415,7 @@ function initArrow() {
     counter = 0;
     gaugeCircle.x = sw / 2;
     gaugeCircle.interactive = true;
+    app.ticker.add(rotateTicker);
 }
 
 function displayBox() {
@@ -433,7 +435,7 @@ function displayBox() {
 
     var background = new PIXI.Sprite.from('Assets/girl_star1.png');
     buttons.addChild(background);
-    switch (CBoard.count){
+    switch (CBoard.count) {
         case 1:
             background = new PIXI.Sprite.from('Assets/girl_star1.png');
             buttonok.x = 17;
@@ -492,22 +494,22 @@ function displayBox() {
 }
 
 function onGameOk() {
-        let waitTicker = () => {
-            if (counter == 30){
-                app.ticker.remove(waitTicker);
-                displayBox();
-            }
-            counter++;
+    let waitTicker = () => {
+        if (counter == 30) {
+            app.ticker.remove(waitTicker);
+            displayBox();
         }
-        if(CBoard.count==5){
-            CBoard.count++;
-            app.ticker.add(waitTicker);
-        }
-        else {
-            app.stage.removeChild(buttons);
-            displayed = false;
-            initArrow();
-        }
+        counter++;
+    }
+    if (CBoard.count == 5) {
+        CBoard.count++;
+        app.ticker.add(waitTicker);
+    }
+    else {
+        app.stage.removeChild(buttons);
+        displayed = false;
+        initArrow();
+    }
 }
 
 function onReplay() {   //back to game home
