@@ -88,8 +88,8 @@ class CArrow extends PIXI.Sprite{
         super(PIXI.Texture.from("Assets/"+color+"_dart.png"));
         this.anchor.set(1,0.5);
         this.color = color;
-        this.x = 188;
-        this.y = 437;
+        this.x = 188+15.5;
+        this.y = 437+97;
         this.width = 97;
         this.height = 31;
         this.angle=90;
@@ -303,7 +303,7 @@ function initFemale() {
     gaugeBar.y = sh * 18 / 20;
     gaugeBar.height = 30;
     gaugeBar.width = 300;
-   // gaugeContainer.addChild(gaugeBar);
+    gaugeContainer.addChild(gaugeBar);
 
     let holdCircle = false;
     gaugeCircle = new PIXI.Sprite.from("images/circle.png");
