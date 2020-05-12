@@ -1,8 +1,8 @@
 init();
-var feimage = 'images/Female2.png';
-var fe2image = 'images/Female1.png';
-var maimage = 'images/Male1.png';
-var ma2image = 'images/Male.png';
+var feimage = 'Assets/girl_button.png';
+var fe2image = 'Assets//girl_button_after.png';
+var maimage = 'Assets/boy_button.png';
+var ma2image = 'Assets/boy_button_after.png';
 var queimage = 'images/question.png';
 var que2image = 'images/question2.png';
 var okimage = 'images/ok.png';
@@ -25,38 +25,41 @@ function init() {
         app = new PIXI.Application(
             {
                 width: 414,
-                height: 736,
+                height: 668,
                 backgroundcolor: 0xAAAAAA
             }
         );
         document.body.appendChild(app.view);
-
-        backgroundimg = new PIXI.Sprite.from("images/bg1.jpg");
-        backgroundimg.anchor.set(0);
-        backgroundimg.height = app.view.height;
-        backgroundimg.width = app.view.width;
-        backgroundimg.x = 0;
-        backgroundimg.y = 0;
-        app.stage.addChild(backgroundimg);
-
         homecontainer = new PIXI.Container();
         app.stage.addChild(homecontainer);
 
-        textup = new PIXI.Sprite.from("images/textup.png");
-        textup.anchor.set(0.5);
-        textup.height = 150;
-        textup.width = 400;
-        textup.x = app.view.width / 2;
-        textup.y = app.view.height / 4;
-        homecontainer.addChild(textup);
+        //backgroundimg = new PIXI.Sprite.from("images/bg1.jpg");
+        backgroundimg = new PIXI.Sprite.from("Assets/intro_page.png");
+        backgroundimg.anchor.set(0);
+        backgroundimg.height = 668;
+        backgroundimg.width = 415;
+        backgroundimg.x = -1;
+        backgroundimg.y = 1;
+        homecontainer.addChild(backgroundimg);
+        //app.stage.addChild(backgroundimg);
+
+
+
+        // textup = new PIXI.Sprite.from("images/textup.png");
+        // textup.anchor.set(0.5);
+        // textup.height = 150;
+        // textup.width = 400;
+        // textup.x = app.view.width / 2;
+        // textup.y = app.view.height / 4;
+        // homecontainer.addChild(textup);
 
         buttonfemale = new PIXI.Sprite.from(texturefe);
         buttonfemale.buttonMode = true;
-        buttonfemale.anchor.set(0.5);
-        buttonfemale.height = 150;
-        buttonfemale.width = 150;
-        buttonfemale.x = app.view.width / 2;
-        buttonfemale.y = app.view.height / 2;
+        //buttonfemale.anchor.set(0);
+        buttonfemale.height = 131;
+        buttonfemale.width = 187;
+        buttonfemale.x = 23;
+        buttonfemale.y = 106;
         buttonfemale.myCustomProperty = this.feimage;
 
         buttonfemale.interactive = true;
@@ -66,11 +69,10 @@ function init() {
 
         buttonmale = new PIXI.Sprite.from(texturema);
         buttonmale.buttonMode = true;
-        buttonmale.anchor.set(0.5);
-        buttonfemale.height = 150;
-        buttonfemale.width = 150;
-        buttonmale.x = app.view.width / 2;
-        buttonmale.y = app.view.height * 3 / 4;
+        buttonmale.x = 226;
+        buttonmale.y = 106;
+        buttonmale.height = 125;
+        buttonmale.width = 165;
         buttonmale.myCustomProperty = this.maimage;
         buttonmale.interactive = true;
         buttonmale.buttonMode = true;
@@ -94,14 +96,22 @@ function init() {
     }
 }
 function onbuttonfedown(bt) {
-    this.isdown = true;
+    instructionlayer()
+}
+function instructionlayer() {
+    intructionimg = new PIXI.Sprite.from("Assets/Description.png");
+    intructionimg.height = 668;
+    intructionimg.width = 415;
+    intructionimg.x = -1;
+    intructionimg.y = 1;
+    intructionimg.interactive = true;
+    intructionimg.on('pointerdown', onintructionimgdown)
+    app.stage.addChild(intructionimg);
+}
+function onintructionimgdown() {
+    app.stage.removeChild(intructionimg);
     app.stage.removeChild(homecontainer);
-    if (bt.target.myCustomProperty == feimage) {
-        initFemale();
-    }
-    else if (bt.target.myCustomProperty == maimage) {
-    }
-    //window.location.href = "game.html";
+    initFemale();
 }
 function onbuttonover(bt) {
     this.isOver = true;
