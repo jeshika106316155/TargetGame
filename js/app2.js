@@ -411,7 +411,16 @@ function hitboard(scorebox, score, txt) {
 }
 
 function initArrow() {
-    arrow = new CArrow(femaleContainer, "blue");
+    arrows =["blue", "red", "green"];
+    var color=arrow.color;
+    for(var i =0; i<arrows.length; i++){
+        if(arrow.color==arrows[i]){
+            if(i+1==arrows.length)i-=1;
+            color=arrows[i+1];
+            break;
+        }
+    }
+    arrow = new CArrow(femaleContainer, color);
     counter = 0;
     gaugeCircle.x = sw / 2;
     gaugeCircle.interactive = true;
