@@ -42,20 +42,8 @@ class CScore {
     }
 }
 
-class CBoard extends PIXI.Sprite{
+class Board extends PIXI.Sprite{
     static count;
-    // constructor(pict, x, y, width, height, score, scorebox) {
-    //     super(PIXI.Texture.from("Assets/" + pict + ".png"));
-    //     this.pict = pict;
-    //     this.anchor.set(0);
-    //     this.x = x;
-    //     this.y = y;
-    //     this.width = width;
-    //     this.height = height;
-    //     this.score = score;
-    //     this.scorebox = scorebox;
-    //     femaleContainer.addChild(this);
-    // }
     constructor(app, sw, sh, color, radius, score, scorebox) {
         super(PIXI.Texture.from("images/" + color + ".png"));
         this.app = app;
@@ -75,17 +63,36 @@ class CBoard extends PIXI.Sprite{
     }
 }
 
+Board.count = 0;
+
+class CBoard extends PIXI.Sprite{
+    static count;
+    constructor(femaleContainer, pict, x, y, width, height, score, scorebox) {
+        super(PIXI.Texture.from("Assets/" + pict + ".png"));
+        this.pict = pict;
+        this.anchor.set(0);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.score = score;
+        this.scorebox = scorebox;
+        femaleContainer.addChild(this);
+    }
+}
+
 CBoard.count = 0;
 
 class CArrow extends PIXI.Sprite{
     constructor(container, color) {
         super(PIXI.Texture.from("Assets/"+color+"_dart.png"));
-        this.anchor.set(0);
+        this.anchor.set(1,0.5);
         this.color = color;
         this.x = 188;
         this.y = 437;
-        this.width = 31;
-        this.height = 97;
+        this.width = 97;
+        this.height = 31;
+        this.angle=90;
         container.addChild(this);
     }
 }
@@ -101,7 +108,26 @@ function initFemale() {
 
     let semicircle, circle;
 
+
+    let backgroundimg = new PIXI.Sprite.from("Assets/background.png");
+    backgroundimg.anchor.set(0);
+    backgroundimg.height = app.view.height;
+    backgroundimg.width = app.view.width;
+    backgroundimg.x = 0;
+    backgroundimg.y = 0;
+    femaleContainer.addChild(backgroundimg);
+
+
     let scorebox = new CScore(femaleContainer, sw, sh);
+
+    
+    let top_10pt = new CBoard(femaleContainer,"10pt_top", 247, 123,  95, 113, 10, scorebox);
+    let bot_10pt = new CBoard(femaleContainer, "10pt_bot",  67, 236, 102, 111, 10, scorebox);
+    let top_20pt = new CBoard(femaleContainer, "20pt_top", 67, 125, 98, 108, 20, scorebox);
+    let bot_20pt = new CBoard(femaleContainer, "20pt_bot", 252, 237, 93, 110, 20, scorebox);
+    let top_30pt = new CBoard(femaleContainer, "30pt_top",132, 98,  129, 77, 30, scorebox);
+    let bot_30pt = new CBoard(femaleContainer,"30pt_bot", 141, 292,  134, 84, 30, scorebox);
+    let pt40 = new CBoard(femaleContainer,"40pt",  137, 170, 131, 133, 40, scorebox);
 
     let dartBorder = new PIXI.Sprite.from("Assets/border.png");
     dartBorder.anchor.set(0);
@@ -111,16 +137,10 @@ function initFemale() {
     dartBorder.height = 290;
     femaleContainer.addChild(dartBorder);
 
-    // top_10pt = new CBoard(femaleContainer,"10pt_top", 247, 123,  95, 113, 10, scorebox);
-    // bot_10pt = new CBoard(femaleContainer, "10pt_bot",  57, 236, 102, 111, 10, scorebox);
-    // top_20pt = new CBoard(femaleContainer, "20pt_top", 67, 125, 98, 108, 20, scorebox);
-    // bot_20pt = new CBoard(femaleContainer, "20pt_bot", 252, 237, 93, 110, 20, scorebox);
-    // top_30pt = new CBoard(femaleContainer, "30pt_top",132, 98,  129, 77, 30, scorebox);
-    // bot_30pt = new CBoard(femaleContainer,"30pt_bot", 141, 292,  134, 84, 30, scorebox);
-    // pt40 = new CBoard(femaleContainer,"40pt",  137, 170, 131, 133, 40, scorebox);
-    let yellow = new CBoard(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
-    let pink = new CBoard(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
-    let red = new CBoard(femaleContainer, sw, sh, "red", 60, 30, scorebox);
+    let yellow = new Board(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
+    let pink = new Board(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
+    let red = new Board(femaleContainer, sw, sh, "red", 60, 30, scorebox);
+
 
     let uterus = new PIXI.Sprite.from("Assets/uterus.png");
     uterus.anchor.set(0);
@@ -138,17 +158,17 @@ function initFemale() {
     wings.height = 342;
     femaleContainer.addChild(wings);
 
-    let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-    femaleContainer.addChild(txt);
-    txt = new PIXI.Text("RED="+red.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
-    txt.y = 200;
-    femaleContainer.addChild(txt);
-    txt = new PIXI.Text("PINK="+pink.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
-    txt.y = 225;
-    femaleContainer.addChild(txt);
-    txt = new PIXI.Text("YELLOW="+yellow.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
-    txt.y = 255;
-    femaleContainer.addChild(txt);
+    // let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
+    // femaleContainer.addChild(txt);
+    // txt = new PIXI.Text("RED="+red.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
+    // txt.y = 200;
+    // femaleContainer.addChild(txt);
+    // txt = new PIXI.Text("PINK="+pink.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
+    // txt.y = 225;
+    // femaleContainer.addChild(txt);
+    // txt = new PIXI.Text("YELLOW="+yellow.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
+    // txt.y = 255;
+    // femaleContainer.addChild(txt);
 
     str_bar_empty=new PIXI.Texture.from("Assets/str_bar_empty.png");
     str_bar_full=new PIXI.Texture.from("Assets/str_bar_full.png");
@@ -161,12 +181,12 @@ function initFemale() {
     femaleContainer.addChild(str_bar);
 
     let indicator = new PIXI.Sprite.from("Assets/indicator.png");
-    indicator.anchor.set(0,1);
+    indicator.anchor.set(0.5);
     indicator.x = 186.38;
     indicator.y = 618.84;
-    indicator.width = 20;
-    indicator.height = 48;
-    indicator.angle = 29;
+    indicator.width = 48;
+    indicator.height = 20;
+    indicator.angle = 90;
     femaleContainer.addChild(indicator);
 
 
@@ -228,13 +248,16 @@ function initFemale() {
             var centerx = yellow.x, centery = yellow.y;
             var txtx = arrow.x, txty = arrow.y;
             for (var i = 0; i <= arrow.width; i++) {
-                // txtx -= Math.cos(arrow.rotation);
-                // txty -= Math.sin(arrow.rotation);
-                txty -= Math.cos(arrow.rotation);
-                txtx -= Math.sin(arrow.rotation);
+                 txtx -= Math.cos(arrow.rotation);
+                 txty -= Math.sin(arrow.rotation);
+              //  txty -= Math.cos(arrow.rotation);
+               // txtx -= Math.sin(arrow.rotation);
 
             }
-
+            txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+            txt.anchor.set(0.5);
+            txt.x=txtx;
+            txt.y=txty;
             var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
             femaleContainer.addChild(txt);
 
@@ -255,17 +278,17 @@ function initFemale() {
 
         }
 
-        // arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
-        // arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
-        arrow.y = arrow.y - Math.cos(arrow.rotation) * speed;
-        arrow.x = arrow.x - Math.sin(arrow.rotation) * speed;
+         arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
+         arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
+        //arrow.y = arrow.y - Math.cos(arrow.rotation) * speed;
+        //arrow.x = arrow.x - Math.sin(arrow.rotation) * speed;
         counter++;
         gaugeCircle.interactive = false;
 
 
     }
 
-    //app.ticker.add(rotateTicker);
+    app.ticker.add(rotateTicker);
 
     var gaugeContainer = new PIXI.Container();
     femaleContainer.addChild(gaugeContainer);
@@ -280,7 +303,7 @@ function initFemale() {
     gaugeBar.y = sh * 18 / 20;
     gaugeBar.height = 30;
     gaugeBar.width = 300;
-    gaugeContainer.addChild(gaugeBar);
+   // gaugeContainer.addChild(gaugeBar);
 
     let holdCircle = false;
     gaugeCircle = new PIXI.Sprite.from("images/circle.png");
@@ -443,7 +466,7 @@ function displayBox() {
             buttonok.y = 562;
             buttonok.width = 143;
             buttonok.height = 82;
-            buttonok.on('pointerdown', onEnd);
+            buttonok.on('pointerdown', onReplay);
             buttonEnd = new PIXI.Sprite.from('Assets/end_game.png');
             buttonEnd.anchor.set(0);
             buttonEnd.x = 217;
@@ -487,13 +510,13 @@ function onGameOk() {
         }
 }
 
-function onReplay() {
+function onReplay() {   //back to game home
     app.stage.removeChild(buttons);
     app.stage.removeChild(femaleContainer);
     app.stage.addChild(homecontainer);
 }
 
-function onEnd() {
+function onEnd() {  //end game, back to main app
     app.stage.removeChild(buttons);
     app.stage.removeChild(femaleContainer);
     app.stage.addChild(homecontainer);
