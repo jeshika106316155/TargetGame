@@ -259,13 +259,19 @@ function initFemale() {
             var r2 = ((txtx - centerx) * (txtx - centerx)) + ((txty - centery)) * ((txty - centery));
 
 
-            if (r2 <= Math.pow(red.radius, 2)) {
-                displayed = hitboard(scorebox, red.score, scoreTxt);
+            if (r2 <= Math.pow((pt40.height / 2), 2)) {
+                displayed = hitboard(scorebox, 40, scoreTxt);
                 txt1.text = "red";
             }
-            else if (r2 <= Math.pow(pink.radius, 2)) {
+            else if (r2 <= Math.pow((dartBorder.height / 2), 2)) {
+                var depmir = Math.abs(txty - centery) / Math.sqrt(r2);
+                //Math.atan((txtx - centerx) / (txty - centery));
+                var sin = Math.asin(depmir);
+                sin *= 360 / Math.PI; // rads to degs, range (-180, 180]
+                //if (sin < 0) sin = 360 + sin;
                 displayed = hitboard(scorebox, pink.score, scoreTxt);
-                txt1.text = "pink";
+                txt1.text = sin;
+                //txt1.text = "pink";
             }
             else if (r2 <= Math.pow(yellow.radius, 2)) {
                 displayed = hitboard(scorebox, yellow.score, scoreTxt);
