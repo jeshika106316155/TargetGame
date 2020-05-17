@@ -29,6 +29,8 @@ function init() {
                 backgroundcolor: 0xAAAAAA
             }
         );
+        // PIXI.sound.add('bird', 'resources/bird.mp3');
+        // PIXI.sound.play('bird');
         document.body.appendChild(app.view);
         homecontainer = new PIXI.Container();
         app.stage.addChild(homecontainer);

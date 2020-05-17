@@ -102,7 +102,7 @@ let gaugeCircle;
 
 function initFemale() {
     sw = app.view.width, sh = app.view.height;
-
+    CBoard.count = 0;
     femaleContainer = new PIXI.Container();
     app.stage.addChild(femaleContainer);
 
@@ -412,7 +412,6 @@ function displayBox() {
     buttonok.height = 57;
     buttonok.interactive = true;
     buttonok.on('pointerdown', onGameOk);
-    buttons.addChild(buttonok)
 
     var background = new PIXI.Sprite.from('Assets/girl_star1.png');
     buttons.addChild(background);
@@ -462,6 +461,8 @@ function displayBox() {
             break;
 
     }
+    buttons.addChild(buttonok)
+
 }
 
 function onGameOk() {
@@ -474,7 +475,8 @@ function onGameOk() {
     }
     if (CBoard.count == 5) {
         CBoard.count++;
-        app.ticker.add(waitTicker);
+        //app.ticker.add(waitTicker);
+        displayBox();
     }
     else {
         app.stage.removeChild(buttons);
