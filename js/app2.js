@@ -264,13 +264,31 @@ function initFemale() {
                 txt1.text = "red";
             }
             else if (r2 <= Math.pow((dartBorder.height / 2), 2)) {
-                var depmir = Math.abs(txty - centery) / Math.sqrt(r2);
-                //Math.atan((txtx - centerx) / (txty - centery));
-                var sin = Math.asin(depmir);
-                sin *= 360 / Math.PI; // rads to degs, range (-180, 180]
-                //if (sin < 0) sin = 360 + sin;
-                displayed = hitboard(scorebox, pink.score, scoreTxt);
+                var sin = Math.atan((txty - centery) / (txtx - centerx));
+                sin *= 180 / Math.PI; // rads to degs, range (-180, 180]
+                if (sin < 0) sin = 360 + sin;
                 txt1.text = sin;
+                var scr = 0;
+                if (sin >= 0 && sin < 60) {
+                    scr = 20;
+                }
+                else if (sin < 120) {
+                    scr = 30;
+                }
+                else if (sin < 180) {
+                    scr = 10;
+                }
+                else if (sin < 240) {
+                    scr = 20;
+                }
+                else if (sin < 300) {
+                    scr = 30;
+                }
+                else if (sin < 360) {
+                    scr = 10;
+                }
+                displayed = hitboard(scorebox, scr, scoreTxt);
+
                 //txt1.text = "pink";
             }
             else if (r2 <= Math.pow(yellow.radius, 2)) {
