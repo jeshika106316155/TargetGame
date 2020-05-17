@@ -16,6 +16,7 @@ var textureok = PIXI.Texture.fromImage(okimage);
 let app;
 var buttons;
 let buttonfemale, buttonmale, textup;
+let sex;
 function init() {
     //let app;
 
@@ -29,8 +30,6 @@ function init() {
                 backgroundcolor: 0xAAAAAA
             }
         );
-        // PIXI.sound.add('bird', 'resources/bird.mp3');
-        // PIXI.sound.play('bird');
         document.body.appendChild(app.view);
         homecontainer = new PIXI.Container();
         app.stage.addChild(homecontainer);
@@ -65,11 +64,16 @@ function init() {
         buttonmale.myCustomProperty = this.maimage;
         buttonmale.interactive = true;
         buttonmale.buttonMode = true;
-        buttonmale.on('pointerdown', function (e) { onbuttonfedown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
+        buttonmale.on('pointerdown', function (e) { onbuttonmadown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
         homecontainer.addChild(buttonmale);
     }
 }
 function onbuttonfedown(bt) {
+    sex = "female";
+    instructionlayer()
+}
+function onbuttonmadown(bt) {
+    sex = "male";
     instructionlayer()
 }
 function instructionlayer() {
@@ -85,7 +89,7 @@ function instructionlayer() {
 function onintructionimgdown() {
     app.stage.removeChild(intructionimg);
     app.stage.removeChild(homecontainer);
-    initFemale();
+    playGame(sex);
 }
 function onbuttonover(bt) {
     this.isOver = true;
