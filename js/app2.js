@@ -16,7 +16,7 @@ class CScore {
 
         this.score = 0;
 
-        this.scorebg = new PIXI.Sprite.from("Assets/girl_pt_bar_empty.png");
+        this.scorebg = new PIXI.Sprite.from("Assets/girl_pt_bar_full.png");
         this.scorebg.anchor.set(0);
         this.scorebg.x = 19;
         this.scorebg.y = 26;
@@ -24,11 +24,11 @@ class CScore {
         this.scorebg.height = 33;
         this.container.addChild(this.scorebg);
 
-        this.scoreline = new PIXI.Sprite.from("Assets/girl_pt_bar_full.png");
+        this.scoreline = new PIXI.Sprite.from("Assets/girl_pt_bar_empty.png");
         this.scoreline.anchor.set(0);
         this.scoreline.x = 19;
         this.scoreline.y = 26;
-        this.scoreline.width = 1;
+        this.scoreline.width = 378;
         this.scoreline.height = 33;
         this.container.addChild(this.scoreline);
 
@@ -117,8 +117,16 @@ function initFemale() {
     backgroundimg.y = 0;
     femaleContainer.addChild(backgroundimg);
 
+    let wings = new PIXI.Sprite.from("Assets/wings.png");
+    wings.anchor.set(0);
+    wings.x = 1;
+    wings.y = 109;
+    wings.width = 415;
+    wings.height = 342;
+    femaleContainer.addChild(wings);
 
     let scorebox = new CScore(femaleContainer, sw, sh);
+
     let yellow = new Board(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
     let pink = new Board(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
     let red = new Board(femaleContainer, sw, sh, "red", 60, 30, scorebox);
@@ -139,9 +147,6 @@ function initFemale() {
     dartBorder.height = 290;
     femaleContainer.addChild(dartBorder);
 
-
-
-
     let uterus = new PIXI.Sprite.from("Assets/uterus.png");
     uterus.anchor.set(0);
     uterus.x = 160;
@@ -150,13 +155,6 @@ function initFemale() {
     uterus.height = 72;
     femaleContainer.addChild(uterus);
 
-    let wings = new PIXI.Sprite.from("Assets/wings.png");
-    wings.anchor.set(0);
-    wings.x = 1;
-    wings.y = 109;
-    wings.width = 415;
-    wings.height = 342;
-    femaleContainer.addChild(wings);
 
     // let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
     // femaleContainer.addChild(txt);
@@ -172,24 +170,24 @@ function initFemale() {
 
     str_bar_empty = new PIXI.Texture.from("Assets/str_bar_empty.png");
     str_bar_full = new PIXI.Texture.from("Assets/str_bar_full.png");
-    let str_bar = new PIXI.Sprite.from("Assets/str_bar_empty.png");
+    let str_bar = new PIXI.Sprite.from("Assets/str_bar_full.png");
     str_bar.anchor.set(0);
     str_bar.x = 32;
     str_bar.y = 511;
     str_bar.width = 381;
     str_bar.height = 143;
+    str_bar.interactive = true;
+    str_bar.on("pointerdown", function () { app.ticker.remove(rotateTicker); arrow.angle = indicator.angle; })
     femaleContainer.addChild(str_bar);
 
     let indicator = new PIXI.Sprite.from("Assets/indicator.png");
-    indicator.anchor.set(0.5);
-    indicator.x = 186.38;
-    indicator.y = 618.84;
+    indicator.anchor.set(1, 0.5);
+    indicator.x = 204;
+    indicator.y = 615;
     indicator.width = 48;
     indicator.height = 20;
     indicator.angle = 90;
     femaleContainer.addChild(indicator);
-
-
 
     // var semicircGraphic = new this.PIXI.Graphics();
     // semicircGraphic.beginFill(0x00FF00);
@@ -217,9 +215,9 @@ function initFemale() {
 
     var k = 1;
     rotateTicker = () => {
-        var angle = arrow.angle;
-        if (arrow.angle < 0 || arrow.angle > 180) { k = -k; }
-        arrow.angle += k;
+        //var angle = arrow.angle;
+        if (indicator.angle < 0 || indicator.angle > 180) { k = -k; }
+        indicator.angle += k;
     }
 
     var displayed = false;
@@ -319,38 +317,47 @@ function initFemale() {
     txt1.y = 400;
     femaleContainer.addChild(txt1);
 
-    gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
-    gaugeBar.anchor.set(0.5);
-    gaugeBar.x = sw / 2;
-    gaugeBar.y = sh * 18 / 20;
-    gaugeBar.height = 30;
-    gaugeBar.width = 300;
-    //gaugeContainer.addChild(gaugeBar);
+    // gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
+    // gaugeBar.anchor.set(0.5);
+    // gaugeBar.x = sw / 2;
+    // gaugeBar.y = sh * 18 / 20;
+    // gaugeBar.height = 30;
+    // gaugeBar.width = 300;
+    // femaleContainer.addChild(gaugeBar);
 
     let holdCircle = false;
     gaugeCircle = new PIXI.Sprite.from("images/circle.png");
     gaugeCircle.anchor.set(0.5);
     gaugeCircle.x = sw / 2;
-    gaugeCircle.y = sh * 18 / 20;
-    gaugeCircle.height = 30;
+    gaugeCircle.y = 626;
+    gaugeCircle.height = 30;//13;
     gaugeCircle.width = gaugeCircle.height;
-    femaleContainer.addChild(gaugeBar);
     femaleContainer.addChild(gaugeCircle);
     gaugeCircle.interactive = true;
-    gaugeCircle.on('pointerdown', function () { holdCircle = true; app.ticker.remove(rotateTicker); });
+    gaugeCircle.on('pointerdown', function () { holdCircle = true; });
     gaugeCircle.on('pointermove', function (e) {
         if (holdCircle == true) {
             pos = e.data.global.x;
             posy = e.data.global.y;
-            farleft = gaugeBar.x - gaugeBar.width / 2 + gaugeCircle.width / 2;
-            farright = gaugeBar.x + gaugeBar.width / 2 - gaugeCircle.width / 2;
-            fartop = gaugeBar.y - gaugeBar.height / 2;
-            farbottom = gaugeBar.y + gaugeBar.height / 2;
+            farleft = str_bar.x + 1.5 * gaugeCircle.width;
+            farright = str_bar.x + str_bar.width - 2 * gaugeCircle.width;
+            fartop = str_bar.y + 100;//109;
+            farbottom = fartop + gaugeCircle.height;
             diff = farright - farleft; //342-72 = 270
             scale = diff / 100; //2.7
+            // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 10, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+            // txt.anchor.set(0.5);
+            // txt.x = sw / 2;
+            // txt.y = fartop;
+            // femaleContainer.addChild(txt);
+            // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 10, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
+            // txt.anchor.set(0.5);
+            // txt.x = sw / 2;
+            // txt.y = farbottom;
+            // femaleContainer.addChild(txt);
             if (pos < farleft) {
                 holdCircle = false;
-                gaugeCircsle.x = farleft;
+                gaugeCircle.x = farleft;
             }
             else if (pos > farright) {
                 holdCircle = false;
@@ -391,14 +398,16 @@ function hitboard(scorebox, score, txt) {
         counter++;
     }
 
-    if (width < scrbx.scorebg.width) {
-        scrbx.scoreline.width += score;
+    if (width >= 0) {//scrbx.scorebg.width
+        //scrbx.scoreline.width += score;
+        scrbx.scoreline.width -= score;
+        scrbx.scoreline.x += score;
         scrbx.score += score;
-        if (width > scrbx.scorebg.width) {
-            width = scrbx.scorebg.width;
+        if (width <= scrbx.scorebg.width) {
+            width = 1;//scrbx.scorebg.width;
         }
         txt.text = "SCORE=" + scrbx.score;
-        offsetX = scrbx.scoreline.x + scrbx.scoreline.width;
+        offsetX = scrbx.scoreline.x //+ scrbx.scoreline.width;
         if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
             CBoard.count++;
             scrbx.star1.texture = fullstar;
