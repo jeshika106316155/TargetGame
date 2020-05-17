@@ -160,7 +160,11 @@ function initFemale() {
     str_bar.width = 381;
     str_bar.height = 143;
     str_bar.interactive = true;
-    str_bar.on("pointerdown", function () { app.ticker.remove(rotateTicker); arrow.angle = indicator.angle; })
+    str_bar.on("pointerdown", function () {
+        app.ticker.remove(rotateTicker);
+        arrow.angle = indicator.angle;
+        gaugeCircle.interactive = true;
+    });
     femaleContainer.addChild(str_bar);
 
     let indicator = new PIXI.Sprite.from("Assets/indicator.png");
@@ -276,8 +280,13 @@ function initFemale() {
     gaugeCircle.height = 30;//13;
     gaugeCircle.width = gaugeCircle.height;
     femaleContainer.addChild(gaugeCircle);
-    gaugeCircle.interactive = true;
-    gaugeCircle.on('pointerdown', function () { holdCircle = true; });
+    gaugeCircle.interactive = false;
+    gaugeCircle.on('pointerdown', function () {
+        app.ticker.remove(rotateTicker);
+        arrow.angle = indicator.angle;
+        //gaugeCircle.interactive = true;
+        holdCircle = true;
+    });
     gaugeCircle.on('pointermove', function (e) {
         if (holdCircle == true) {
             pos = e.data.global.x;
@@ -311,6 +320,7 @@ function initFemale() {
         if (holdCircle == true) {
             holdCircle = false;
             Arrowangle = arrow.angle;
+            gaugeCircle.interactive = false;
             app.ticker.add(flyTicker);
         }
     });
@@ -335,9 +345,12 @@ function hitboard(scorebox, score, txt) {
         scrbx.scoreline.width -= score;
         scrbx.scoreline.x += score;
         scrbx.score += score;
+<<<<<<< HEAD
         if (width <= scrbx.scorebg.width) {
             width = 1;
         }
+=======
+>>>>>>> 75c118b1f7e839a72350a4bdf3f9d0505cc911d6
         txt.text = "SCORE=" + scrbx.score;
         offsetX = scrbx.scoreline.x;
         if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
@@ -364,13 +377,15 @@ function hitboard(scorebox, score, txt) {
             app.ticker.add(waitTicker);
             return true;
         }
-    } else if (CBoard.count == 4) {
-        CBoard.count++;
-        scrbx.star5.texture = fullstar;
-        app.ticker.add(waitTicker);
-        return true;
+        else if (width <= scrbx.scorebg.width && CBoard.count == 4) {
+            CBoard.count++;
+            scrbx.star5.texture = fullstar;
+            app.ticker.add(waitTicker);
+            width = 1;//scrbx.scorebg.width;
+            return true;
+        }
+        return false;
     }
-    return false;
 }
 
 function initArrow() {
