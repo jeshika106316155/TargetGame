@@ -345,12 +345,6 @@ function hitboard(scorebox, score, txt) {
         scrbx.scoreline.width -= score;
         scrbx.scoreline.x += score;
         scrbx.score += score;
-<<<<<<< HEAD
-        if (width <= scrbx.scorebg.width) {
-            width = 1;
-        }
-=======
->>>>>>> 75c118b1f7e839a72350a4bdf3f9d0505cc911d6
         txt.text = "SCORE=" + scrbx.score;
         offsetX = scrbx.scoreline.x;
         if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
