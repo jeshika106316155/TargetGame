@@ -85,8 +85,6 @@ class CArrow extends PIXI.Sprite {
     }
 }
 
-let gaugeCircle;
-
 function hitboard(scorebox, score, txt) {
     let fullstar = new PIXI.Texture.from("Assets/star_full.png");
     let scrbx = scorebox;
@@ -162,7 +160,7 @@ function hitboard(scorebox, score, txt) {
 }
 
 function initArrow() {
-    arrows = ["blue", "red", "green"];
+    var arrows = ["blue", "red", "green"];
     var color = arrow.color;
     for (var i = 0; i < arrows.length; i++) {
         if (arrow.color == arrows[i]) {
@@ -173,8 +171,7 @@ function initArrow() {
     }
     arrow = new CArrow(gameContainer, color);
     counter = 0;
-    gaugeCircle.x = 150;
-    gaugeCircle.interactive = true;
+    gaugeCircle.x = 77;
     app.ticker.add(rotateTicker);
 }
 

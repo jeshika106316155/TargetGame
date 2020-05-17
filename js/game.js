@@ -1,4 +1,6 @@
 let gameContainer;
+let gaugeCircle;
+let arrow;
 
 
 var femaleInfo = [{
@@ -93,6 +95,9 @@ function playGame(sex) {
     dartBorder.height = 290;
     gameContainer.addChild(dartBorder);
 
+    let speed = 5;
+
+    let arrowRotate = true;
     let str_bar = new PIXI.Sprite.from("Assets/str_bar_full.png");
     str_bar.anchor.set(0);
     str_bar.x = 32;
@@ -101,9 +106,18 @@ function playGame(sex) {
     str_bar.height = 143;
     str_bar.interactive = true;
     str_bar.on("pointerdown", function () {
-        app.ticker.remove(rotateTicker);
-        arrow.angle = indicator.angle;
-        gaugeCircle.interactive = true;
+        if (arrowRotate) {
+            app.ticker.remove(rotateTicker);
+            arrow.angle = indicator.angle;
+            arrowRotate = false;
+            app.ticker.add(moveTicker);
+        }
+        else {
+            app.ticker.remove(moveTicker);
+            speed = gaugeCircle.x / 50;
+            app.ticker.add(flyTicker);
+            arrowRotate = true;
+        }
     });
     gameContainer.addChild(str_bar);
 
@@ -124,6 +138,13 @@ function playGame(sex) {
         indicator.angle += k;
     }
 
+
+    var l = 3;
+    moveTicker = () => {
+        if (gaugeCircle.x < farleft || gaugeCircle.x > farright) { l = -l; }
+        gaugeCircle.x += l;
+    }
+
     var displayed = false;
     counter = 0;
     let fadeTicker = () => {
@@ -131,7 +152,7 @@ function playGame(sex) {
             app.ticker.remove(fadeTicker);
             gameContainer.removeChild(arrow);
             if (displayed == false) {
-                initArrow(app, arrow, counter, gaugeCircle, rotateTicker);
+                initArrow();
             }
         }
         counter++;
@@ -140,8 +161,6 @@ function playGame(sex) {
     let scoreTxt = new PIXI.Text("SCORE=0", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
     scoreTxt.y = 0;
     gameContainer.addChild(scoreTxt);
-
-    var speed = 5; //1-20
 
     var flyTicker = () => {
         if (counter == 50) {
@@ -210,56 +229,17 @@ function playGame(sex) {
     let txt1 = new PIXI.Text("SPEED=0", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
     txt1.y = 400;
 
-    let holdCircle = false;
+    //let holdCircle = false;
     gaugeCircle = new PIXI.Sprite.from("images/circle.png");
     gaugeCircle.anchor.set(0.5);
-    gaugeCircle.x = 150;
+    gaugeCircle.x = 77;
     gaugeCircle.y = 626;
     gaugeCircle.height = 30;//13;
     gaugeCircle.width = gaugeCircle.height;
     gameContainer.addChild(gaugeCircle);
-    gaugeCircle.interactive = false;
-    gaugeCircle.on('pointerdown', function () {
-        app.ticker.remove(rotateTicker);
-        arrow.angle = indicator.angle;
-        holdCircle = true;
-    });
-    gaugeCircle.on('pointermove', function (e) {
-        if (holdCircle == true) {
-            pos = e.data.global.x;
-            posy = e.data.global.y;
-            farleft = str_bar.x + 1.5 * gaugeCircle.width;
-            farright = str_bar.x + str_bar.width - 2 * gaugeCircle.width;
-            fartop = str_bar.y + 100;
-            farbottom = fartop + gaugeCircle.height;
-            diff = farright - farleft;
-            scale = diff / 100;
-            if (pos < farleft) {
-                holdCircle = false;
-                gaugeCircle.x = farleft;
-            }
-            else if (pos > farright) {
-                holdCircle = false;
-                gaugeCircle.x = farright;
-            }
-            if (posy > farbottom || posy < fartop) {
-                holdCircle = false;
-            }
-            else {
-                gaugeCircle.x = pos;
-            }
-            gaugeValue = parseInt((gaugeCircle.x - farleft) / scale);
-            speed = gaugeValue / 10;
-            txt1.text = "SPEED=" + speed;
-        }
-    });
-    gaugeCircle.on('pointerup', function () {
-        if (holdCircle == true) {
-            holdCircle = false;
-            gaugeCircle.interactive = false;
-            app.ticker.add(flyTicker);
-        }
-    });
+
+    let farleft = str_bar.x + 1.5 * gaugeCircle.width;
+    let farright = str_bar.x + str_bar.width - 2 * gaugeCircle.width;
 
     if (sex == "female") {
         let ut = new PIXI.Sprite.from(uterus.img);
