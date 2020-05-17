@@ -1,26 +1,10 @@
+// import * as PIXI from 'pixi.js';
+// window.PIXI = PIXI; // this seems optional
+// import 'pixi-sound';
 init();
-var feimage = 'Assets/girl_button.png';
-var fe2image = 'Assets//girl_button_after.png';
-var maimage = 'Assets/boy_button.png';
-var ma2image = 'Assets/boy_button_after.png';
-var queimage = 'images/question.png';
-var que2image = 'images/question2.png';
-var okimage = 'images/ok.png';
-var texturefe = PIXI.Texture.fromImage(feimage);
-var texturefe2 = PIXI.Texture.fromImage(fe2image);
-var texturema = PIXI.Texture.fromImage(maimage);
-var texturema2 = PIXI.Texture.fromImage(ma2image);
-var textureque = PIXI.Texture.fromImage(queimage);
-var textureque2 = PIXI.Texture.fromImage(que2image);
-var textureok = PIXI.Texture.fromImage(okimage);
 let app;
 var buttons;
-let buttonfemale, buttonmale, textup;
 function init() {
-    //let app;
-
-    let buttonquestion, backgroundimg;
-
     window.onload = function () {
         app = new PIXI.Application(
             {
@@ -29,55 +13,41 @@ function init() {
                 backgroundcolor: 0xAAAAAA
             }
         );
-        // PIXI.sound.add('bird', 'resources/bird.mp3');
-        // PIXI.sound.play('bird');
+        const sound = new Howl({
+            src: ['sound/Palin-Around-Paris.mp3'],
+            autoplay: true,
+            loop: true,
+            volume: 0.5
+        });
         document.body.appendChild(app.view);
         homecontainer = new PIXI.Container();
         app.stage.addChild(homecontainer);
 
-        backgroundimg = new PIXI.Sprite.from("Assets/intro_page.png");
-        backgroundimg.anchor.set(0);
-        backgroundimg.height = 668;
-        backgroundimg.width = 415;
-        backgroundimg.x = -1;
-        backgroundimg.y = 1;
+        let backgroundimg = renderImage(this.background, this.background.src)
         homecontainer.addChild(backgroundimg);
 
-        buttonfemale = new PIXI.Sprite.from(texturefe);
-        buttonfemale.buttonMode = true;
-        buttonfemale.height = 131;
-        buttonfemale.width = 187;
-        buttonfemale.x = 23;
-        buttonfemale.y = 106;
-        buttonfemale.myCustomProperty = this.feimage;
-
-        buttonfemale.interactive = true;
-        buttonfemale.buttonMode = true;
-        buttonfemale.on('pointerdown', function (e) { onbuttonfedown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
-        homecontainer.addChild(buttonfemale);
-
-        buttonmale = new PIXI.Sprite.from(texturema);
-        buttonmale.buttonMode = true;
-        buttonmale.x = 226;
-        buttonmale.y = 106;
-        buttonmale.height = 125;
-        buttonmale.width = 165;
-        buttonmale.myCustomProperty = this.maimage;
-        buttonmale.interactive = true;
-        buttonmale.buttonMode = true;
-        buttonmale.on('pointerdown', function (e) { onbuttonfedown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
-        homecontainer.addChild(buttonmale);
+        for (var i = 0; i < 2; i++) {
+            let button = renderImage(this.buttonPre[i], this.buttonPre[i].src[0])
+            button.myCustomProperty = this.buttonPre[i].src[0];
+            button.interactive = true;
+            button.on('pointerdown', function (e) { onbuttonfedown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
+            homecontainer.addChild(button);
+        }
     }
 }
 function onbuttonfedown(bt) {
     instructionlayer()
 }
+function renderImage(imgPreinit, imgsrc) {
+    var img = new PIXI.Sprite.from(imgsrc);
+    img.height = imgPreinit.height;
+    img.width = imgPreinit.width;
+    img.x = imgPreinit.x;
+    img.y = imgPreinit.y;
+    return img;
+}
 function instructionlayer() {
-    intructionimg = new PIXI.Sprite.from("Assets/Description.png");
-    intructionimg.height = 668;
-    intructionimg.width = 415;
-    intructionimg.x = -1;
-    intructionimg.y = 1;
+    intructionimg = renderImage(buttonPre[2], this.buttonPre[2].src);
     intructionimg.interactive = true;
     intructionimg.on('pointerdown', onintructionimgdown)
     app.stage.addChild(intructionimg);
@@ -88,31 +58,23 @@ function onintructionimgdown() {
     initFemale();
 }
 function onbuttonover(bt) {
-    this.isOver = true;
-
-    if (this.isdown) {
-        return;
+    if (bt.target.myCustomProperty == this.buttonPre[0].src[0]) {
+        bt.target._texture = PIXI.Texture.fromImage(this.buttonPre[0].src[1]);
+        bt.target.myCustomProperty = this.buttonPre[0].src[1];
     }
-    if (bt.target.myCustomProperty == feimage) {
-        bt.target._texture = texturefe2;
-    }
-    else if (bt.target.myCustomProperty == maimage) {
-        bt.target._texture = texturema2;
-    }
-    else {
-        bt.target._texture = textureque2;
+    else if (bt.target.myCustomProperty == this.buttonPre[1].src[0]) {
+        bt.target._texture = PIXI.Texture.fromImage(this.buttonPre[1].src[1]);
+        bt.target.myCustomProperty = this.buttonPre[1].src[1];
     }
 }
 
 function onbuttonout() {
-    this.isOver = false;
-    if (this.myCustomProperty == feimage) {
-        this.texture = texturefe;
+    if (this.myCustomProperty == buttonPre[0].src[1]) {
+        this.texture = PIXI.Texture.fromImage(buttonPre[0].src[0]);
+        this.myCustomProperty = buttonPre[0].src[0];
     }
-    else if (this.myCustomProperty == maimage) {
-        this.texture = texturema;
-    }
-    else {
-        this.texture = textureque;
+    else if (this.myCustomProperty == buttonPre[1].src[1]) {
+        this.texture = PIXI.Texture.fromImage(buttonPre[1].src[0]);
+        this.myCustomProperty = buttonPre[1].src[0];
     }
 }
