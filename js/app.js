@@ -33,7 +33,6 @@ function init() {
         homecontainer = new PIXI.Container();
         app.stage.addChild(homecontainer);
 
-        //backgroundimg = new PIXI.Sprite.from("images/bg1.jpg");
         backgroundimg = new PIXI.Sprite.from("Assets/intro_page.png");
         backgroundimg.anchor.set(0);
         backgroundimg.height = 668;
@@ -41,21 +40,9 @@ function init() {
         backgroundimg.x = -1;
         backgroundimg.y = 1;
         homecontainer.addChild(backgroundimg);
-        //app.stage.addChild(backgroundimg);
-
-
-
-        // textup = new PIXI.Sprite.from("images/textup.png");
-        // textup.anchor.set(0.5);
-        // textup.height = 150;
-        // textup.width = 400;
-        // textup.x = app.view.width / 2;
-        // textup.y = app.view.height / 4;
-        // homecontainer.addChild(textup);
 
         buttonfemale = new PIXI.Sprite.from(texturefe);
         buttonfemale.buttonMode = true;
-        //buttonfemale.anchor.set(0);
         buttonfemale.height = 131;
         buttonfemale.width = 187;
         buttonfemale.x = 23;
@@ -78,21 +65,6 @@ function init() {
         buttonmale.buttonMode = true;
         buttonmale.on('pointerdown', function (e) { onbuttonfedown(e); }).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
         homecontainer.addChild(buttonmale);
-
-        buttonquestion = new PIXI.Sprite.from(this.textureque);
-        buttonquestion.buttonMode = true;
-        buttonquestion.anchor.set(1);
-        buttonquestion.height = 80;
-        buttonquestion.width = 80;
-        buttonquestion.x = app.view.width;
-        buttonquestion.y = app.view.height;
-        buttonquestion.myCustomProperty = this.queimage;
-
-        buttonquestion.interactive = true;
-        buttonquestion.buttonMode = true;
-        buttonquestion.on('pointerdown', onbuttonquestiondown).on("pointerover", function (e) { onbuttonover(e); }).on("pointerout", onbuttonout);
-        homecontainer.addChild(buttonquestion);
-
     }
 }
 function onbuttonfedown(bt) {
@@ -141,42 +113,4 @@ function onbuttonout() {
     else {
         this.texture = textureque;
     }
-}
-function onbuttonquestiondown() {
-    let buttonok;
-
-    var h1 = app.view.height / 3;
-    var w1 = 30, w2 = app.view.width - (2 * w1);
-    var buttons = new PIXI.Container();
-    buttonok = new PIXI.Sprite.from(textureok);
-
-    buttonok.buttonMode = true;
-    buttonok.anchor.set(1);
-    buttonok.height = 50;
-    buttonok.width = 50;
-    buttonok.x = w1 + w2;
-    buttonok.y = 2 * h1;
-    buttonok.myCustomProperty = this.okimage;
-    buttonok.interactive = true;
-    buttonok.buttonMode = true;
-    buttonok.on('pointerdown', function () { app.stage.removeChild(buttons); });
-
-    var buttonEndTurn = new PIXI.Graphics();
-    buttonEndTurn.beginFill(0xFF2342);
-    buttonEndTurn.drawRect(w1, h1, w2, h1);
-    buttonEndTurn.endFill();
-
-    var text = new PIXI.Text("Instruction:");
-    text.font = "50px Arial";
-    text.fill = "0XFFFFFF";
-    text.anchor.set(0.5);
-    text.x = (w1 + w2) / 2;
-    text.y = h1 + text.height;
-
-
-    buttons.addChild(buttonEndTurn);
-    buttons.addChild(text);
-    buttons.addChild(buttonok);
-
-    app.stage.addChild(buttons);
 }

@@ -127,10 +127,6 @@ function initFemale() {
 
     let scorebox = new CScore(femaleContainer, sw, sh);
 
-    let yellow = new Board(femaleContainer, sw, sh, "yellow", 100, 10, scorebox);
-    let pink = new Board(femaleContainer, sw, sh, "pink", 80, 20, scorebox);
-    let red = new Board(femaleContainer, sw, sh, "red", 60, 30, scorebox);
-
     let top_10pt = new CBoard(femaleContainer, "10pt_top", 247, 123, 95, 113, 10, scorebox);
     let bot_10pt = new CBoard(femaleContainer, "10pt_bot", 67, 236, 102, 111, 10, scorebox);
     let top_20pt = new CBoard(femaleContainer, "20pt_top", 67, 125, 98, 108, 20, scorebox);
@@ -155,19 +151,6 @@ function initFemale() {
     uterus.height = 72;
     femaleContainer.addChild(uterus);
 
-
-    // let txt = new PIXI.Text("", { fontFamily: 'Arial', fontSize: 24, fill: 0x000000, align: 'center' });
-    // femaleContainer.addChild(txt);
-    // txt = new PIXI.Text("RED="+red.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFF0000, stroke: 'black', strokeThickness: 1, align: 'center' });
-    // txt.y = 200;
-    // femaleContainer.addChild(txt);
-    // txt = new PIXI.Text("PINK="+pink.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFC0CB, stroke: 'black', strokeThickness: 1, align: 'center' });
-    // txt.y = 225;
-    // femaleContainer.addChild(txt);
-    // txt = new PIXI.Text("YELLOW="+yellow.score, { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
-    // txt.y = 255;
-    // femaleContainer.addChild(txt);
-
     str_bar_empty = new PIXI.Texture.from("Assets/str_bar_empty.png");
     str_bar_full = new PIXI.Texture.from("Assets/str_bar_full.png");
     let str_bar = new PIXI.Sprite.from("Assets/str_bar_full.png");
@@ -189,33 +172,10 @@ function initFemale() {
     indicator.angle = 90;
     femaleContainer.addChild(indicator);
 
-    // var semicircGraphic = new this.PIXI.Graphics();
-    // semicircGraphic.beginFill(0x00FF00);
-    // semicircGraphic.lineStyle(2, 0x00FF00);
-    // semicircGraphic.arc(0, 0, 100, Math.PI, 0); // cx, cy, radius, startAngle, endAngle
-    // var semicircTexture = app.renderer.generateTexture(semicircGraphic);
-    // semicircle= new PIXI.Sprite(semicircTexture);
-    // semicircle.anchor.set(0.5,1);
-    // semicircle.x=sw/2;
-    // semicircle.y=sh*7/8;
-    // femaleContainer.addChild(semicircle);
-
-    // var circleGraphic = new this.PIXI.Graphics();
-    // circleGraphic.beginFill(0xFF0000);
-    // circleGraphic.lineStyle(2, 0xFF0000);
-    // circleGraphic.drawCircle(0, 0, 20);
-    // var circleTexture = app.renderer.generateTexture(circleGraphic);
-    // circle= new PIXI.Sprite(circleTexture);
-    // circle.anchor.set(0.5);
-    // circle.x=sw/2;
-    // circle.y=sh*13/16;
-    // femaleContainer.addChild(circle);
-
     arrow = new CArrow(femaleContainer, "blue")
 
     var k = 1;
     rotateTicker = () => {
-        //var angle = arrow.angle;
         if (indicator.angle < 0 || indicator.angle > 180) { k = -k; }
         indicator.angle += k;
     }
@@ -259,13 +219,13 @@ function initFemale() {
 
             if (r2 <= Math.pow((pt40.height / 2), 2)) {
                 displayed = hitboard(scorebox, 40, scoreTxt);
-                txt1.text = "red";
+                //txt1.text = "red";
             }
             else if (r2 <= Math.pow((dartBorder.height / 2), 2)) {
                 var sin = Math.atan((txty - centery) / (txtx - centerx));
                 sin *= 180 / Math.PI; // rads to degs, range (-180, 180]
                 if (sin < 0) sin = 360 + sin;
-                txt1.text = sin;
+                //txt1.text = sin;
                 var scr = 0;
                 if (sin >= 0 && sin < 60) {
                     scr = 20;
@@ -289,10 +249,6 @@ function initFemale() {
 
                 //txt1.text = "pink";
             }
-            else if (r2 <= Math.pow(yellow.radius, 2)) {
-                displayed = hitboard(scorebox, yellow.score, scoreTxt);
-                txt1.text = "yellow";
-            }
             app.ticker.add(fadeTicker);
             counter = 0;
 
@@ -300,12 +256,8 @@ function initFemale() {
 
         arrow.x = arrow.x - Math.cos(arrow.rotation) * speed;
         arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
-        //arrow.y = arrow.y - Math.cos(arrow.rotation) * speed;
-        //arrow.x = arrow.x - Math.sin(arrow.rotation) * speed;
         counter++;
         gaugeCircle.interactive = false;
-
-
     }
 
     app.ticker.add(rotateTicker);
@@ -315,15 +267,6 @@ function initFemale() {
 
     let txt1 = new PIXI.Text("SPEED=0", { fontFamily: 'Arial', fontSize: 24, fill: 0xFFFF00, stroke: 'black', strokeThickness: 1, align: 'center' });
     txt1.y = 400;
-    femaleContainer.addChild(txt1);
-
-    // gaugeBar = new PIXI.Sprite.from("images/gaugebar.png");
-    // gaugeBar.anchor.set(0.5);
-    // gaugeBar.x = sw / 2;
-    // gaugeBar.y = sh * 18 / 20;
-    // gaugeBar.height = 30;
-    // gaugeBar.width = 300;
-    // femaleContainer.addChild(gaugeBar);
 
     let holdCircle = false;
     gaugeCircle = new PIXI.Sprite.from("images/circle.png");
@@ -341,20 +284,10 @@ function initFemale() {
             posy = e.data.global.y;
             farleft = str_bar.x + 1.5 * gaugeCircle.width;
             farright = str_bar.x + str_bar.width - 2 * gaugeCircle.width;
-            fartop = str_bar.y + 100;//109;
+            fartop = str_bar.y + 100;
             farbottom = fartop + gaugeCircle.height;
-            diff = farright - farleft; //342-72 = 270
-            scale = diff / 100; //2.7
-            // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 10, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-            // txt.anchor.set(0.5);
-            // txt.x = sw / 2;
-            // txt.y = fartop;
-            // femaleContainer.addChild(txt);
-            // txt = new PIXI.Text("X", { fontFamily: 'Arial', fontSize: 10, fill: 0x000000, stroke: 'black', strokeThickness: 1, align: 'center' });
-            // txt.anchor.set(0.5);
-            // txt.x = sw / 2;
-            // txt.y = farbottom;
-            // femaleContainer.addChild(txt);
+            diff = farright - farleft;
+            scale = diff / 100;
             if (pos < farleft) {
                 holdCircle = false;
                 gaugeCircle.x = farleft;
@@ -398,16 +331,15 @@ function hitboard(scorebox, score, txt) {
         counter++;
     }
 
-    if (width >= 0) {//scrbx.scorebg.width
-        //scrbx.scoreline.width += score;
+    if (width >= 0) {
         scrbx.scoreline.width -= score;
         scrbx.scoreline.x += score;
         scrbx.score += score;
         if (width <= scrbx.scorebg.width) {
-            width = 1;//scrbx.scorebg.width;
+            width = 1;
         }
         txt.text = "SCORE=" + scrbx.score;
-        offsetX = scrbx.scoreline.x //+ scrbx.scoreline.width;
+        offsetX = scrbx.scoreline.x;
         if (offsetX >= scrbx.star1.x && CBoard.count == 0) {
             CBoard.count++;
             scrbx.star1.texture = fullstar;
