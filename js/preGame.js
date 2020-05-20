@@ -3,6 +3,7 @@
 // import 'pixi-sound';
 init();
 let app;
+let sex;
 var buttons;
 function init() {
     window.onload = function () {
@@ -36,6 +37,8 @@ function init() {
     }
 }
 function onbuttonfedown(bt) {
+    if (bt.target.myCustomProperty == this.buttonPre[0].src[1]) { sex = "female"; }
+    else if (bt.target.myCustomProperty == this.buttonPre[1].src[1]) { sex = "male"; }
     instructionlayer()
 }
 function renderImage(imgPreinit, imgsrc) {
@@ -55,7 +58,7 @@ function instructionlayer() {
 function onintructionimgdown() {
     app.stage.removeChild(intructionimg);
     app.stage.removeChild(homecontainer);
-    initFemale();
+    playGame(sex);
 }
 function onbuttonover(bt) {
     if (bt.target.myCustomProperty == this.buttonPre[0].src[0]) {
