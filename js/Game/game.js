@@ -221,7 +221,7 @@ function playGame(sex) {
     txt1.y = 400;
 
     //let holdCircle = false;
-    gaugeCircle = new PIXI.Sprite.from("images/circle.png");
+    gaugeCircle = new PIXI.Sprite.from("Assets/circle.png");
     gaugeCircle.anchor.set(0.5);
     gaugeCircle.x = 77;
     gaugeCircle.y = 626;
