@@ -1,6 +1,3 @@
-// import * as PIXI from 'pixi.js';
-// window.PIXI = PIXI; // this seems optional
-// import 'pixi-sound';
 init();
 let app;
 let sex;

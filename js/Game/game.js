@@ -95,6 +95,13 @@ function playGame(sex) {
     dartBorder.height = 290;
     gameContainer.addChild(dartBorder);
 
+    const flyingsound = new Howl({
+        src: ['sound/flyeffect.mp3'],
+        autoplay: false,
+        loop: false,
+        volume: 0.5
+    });
+
     let speed = 5;
 
     let arrowRotate = true;
@@ -113,6 +120,7 @@ function playGame(sex) {
             app.ticker.add(moveTicker);
         }
         else {
+            flyingsound.play();
             app.ticker.remove(moveTicker);
             speed = gaugeCircle.x / 50;
             app.ticker.add(flyTicker);
