@@ -161,6 +161,7 @@ function playGame(sex) {
             gameContainer.removeChild(arrow);
             if (displayed == false) {
                 initArrow();
+                str_bar.interactive = true;
             }
         }
         counter++;
@@ -218,6 +219,7 @@ function playGame(sex) {
         arrow.y = arrow.y - Math.sin(arrow.rotation) * speed;
         counter++;
         gaugeCircle.interactive = false;
+        str_bar.interactive = false;
     }
 
     app.ticker.add(rotateTicker);
