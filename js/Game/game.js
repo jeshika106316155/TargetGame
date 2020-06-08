@@ -5,20 +5,20 @@ let arrow;
 
 var femaleInfo = [{
     img: "Assets/girl_star1.png",
-    x: 17,
-    y: 404
+    x: 302,//17,
+    y: 605//404
 }, {
     img: "Assets/girl_star2.png",
     x: 292,
-    y: 419
+    y: 597
 }, {
     img: "Assets/girl_star3.png",
-    x: 300,
-    y: 351
+    x: 301,
+    y: 605
 }, {
     img: "Assets/girl_star4.png",
-    x: 22,
-    y: 437
+    x: 27,
+    y: 593
 }, {
     img: "Assets/girl_star5.png",
     x: 283,
@@ -27,16 +27,16 @@ var femaleInfo = [{
 
 var maleInfo = [{
     img: "Assets/boy_star1.png",
-    x: 21,
-    y: 393
+    x: 13,
+    y: 603
 }, {
     img: "Assets/boy_star2.png",
-    x: 292,
-    y: 419
+    x: 294,
+    y: 596
 }, {
     img: "Assets/boy_star3.png",
-    x: 22,
-    y: 437
+    x: 23,
+    y: 596
 }];
 
 

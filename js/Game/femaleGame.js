@@ -16,13 +16,8 @@ class CScore {
         this.container = new PIXI.Container();
 
         this.score = 0;
-        if (sex == "female") {
-            this.scorebg = new PIXI.Sprite.from("Assets/girl_pt_bar_full.png");
-            this.scoreline = new PIXI.Sprite.from("Assets/girl_pt_bar_empty.png");
-        } else {
-            this.scorebg = new PIXI.Sprite.from("Assets/pt_bar_full.png");
-            this.scoreline = new PIXI.Sprite.from("Assets/pt_bar_empty.png");
-        }
+        this.scorebg = new PIXI.Sprite.from("Assets/pt_bar_full.png");
+        this.scoreline = new PIXI.Sprite.from("Assets/pt_bar_empty.png");
         this.scorebg.anchor.set(0);
         this.scorebg.x = 19;
         this.scorebg.y = 26;
