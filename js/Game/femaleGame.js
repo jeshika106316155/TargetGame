@@ -102,7 +102,7 @@ function hitboard(scorebox, score, txt) {
         counter++;
     }
 
-    if (width >= 0) {
+    if (width > 0) {
         scrbx.scoreline.width -= score * ratio;
         scrbx.scoreline.x += score * ratio;
         scrbx.score += score;
@@ -139,7 +139,7 @@ function hitboard(scorebox, score, txt) {
                 CBoard.count++;
                 scrbx.star5.texture = fullstar;
                 app.ticker.add(waitTicker);
-                width = 1;//scrbx.scorebg.width;
+                //width = 1;//scrbx.scorebg.width;
                 return true;
             }
         }
@@ -154,7 +154,7 @@ function hitboard(scorebox, score, txt) {
                 CBoard.count++;
                 scrbx.star3.texture = fullstar;
                 app.ticker.add(waitTicker);
-                width = 1;//scrbx.scorebg.width;
+                //width = 1;//scrbx.scorebg.width;
                 return true;
             }
         }
@@ -180,8 +180,8 @@ function initArrow() {
 
 function displayBox(sex) {
     let buttonok;
-    var textureok = PIXI.Texture.from('Assets/understood.png');
-
+    buttonrender = false;
+    textureok = PIXI.Texture.from('Assets/understood.png');
     buttons = new PIXI.Container();
     app.stage.addChild(buttons);
 
@@ -189,8 +189,8 @@ function displayBox(sex) {
     buttonok.anchor.set(0);
     buttonok.width = 110;
     buttonok.height = 57;
-    buttonok.interactive = true;
-    buttonok.on('pointerdown', onGameOk);
+
+    //buttonok.on('pointerdown', onGameOk);
 
     var background;
 
@@ -198,16 +198,22 @@ function displayBox(sex) {
         infoImage = femaleInfo;
 
         if (CBoard.count <= 5) {
+
             background = new PIXI.Sprite.from(infoImage[CBoard.count - 1].img);//'Assets/girl_star1.png');
             buttonok.x = infoImage[CBoard.count - 1].x;
             buttonok.y = infoImage[CBoard.count - 1].y;
+            buttonok.interactive = true;
+            buttonok.on('pointerdown', onGameOk);
         }
         else if (CBoard.count == 6) {
+            textureok = PIXI.Texture.from('Assets/back_intro.png');
+            buttonok = new PIXI.Sprite.from(textureok);
             background = new PIXI.Sprite.from('Assets/end_page.png');
             buttonok.x = 52;
             buttonok.y = 562;
             buttonok.width = 143;
             buttonok.height = 82;
+            buttonok.interactive = true;
             buttonok.on('pointerdown', onReplay);
             buttonEnd = new PIXI.Sprite.from('Assets/end_game.png');
             buttonEnd.anchor.set(0);
@@ -226,13 +232,18 @@ function displayBox(sex) {
             background = new PIXI.Sprite.from(infoImage[CBoard.count - 1].img);//'Assets/girl_star1.png');
             buttonok.x = infoImage[CBoard.count - 1].x;
             buttonok.y = infoImage[CBoard.count - 1].y;
+            buttonok.interactive = true;
+            buttonok.on('pointerdown', onGameOk);
         }
         else if (CBoard.count == 4) {
+            textureok = PIXI.Texture.from('Assets/back_intro.png');
+            buttonok = new PIXI.Sprite.from(textureok);
             background = new PIXI.Sprite.from('Assets/end_page.png');
             buttonok.x = 52;
             buttonok.y = 562;
             buttonok.width = 143;
             buttonok.height = 82;
+            buttonok.interactive = true;
             buttonok.on('pointerdown', onReplay);
             buttonEnd = new PIXI.Sprite.from('Assets/end_game.png');
             buttonEnd.anchor.set(0);
@@ -246,10 +257,13 @@ function displayBox(sex) {
         }
     }
 
-    buttons.addChild(background);
-    buttons.addChild(buttonok);
+    renderbutton(buttons, background);
+    if (buttonrender == true) { buttons.addChild(buttonok); }
 }
-
+function renderbutton(buttons, background) {
+    buttons.addChild(background);
+    buttonrender = true;
+}
 function onGameOk() {
     let waitTicker = () => {
         if (counter == 30) {
